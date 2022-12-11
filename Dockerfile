@@ -28,4 +28,4 @@ COPY ["${DEFAULT_PACKAGES}/server_packages.sii", "/app/default_packages/"]
 ENV LD_LIBRARY_PATH='/app/linux64'
 
 ENTRYPOINT [ "/entrypoint" ]
-CMD [ "${EXECUTABLE}" ]
+CMD [ "bash", "-c", "${EXECUTABLE}" ]
