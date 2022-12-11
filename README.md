@@ -75,8 +75,8 @@ You can check the logs with `docker compose logs -f`.
 | ETS_SERVER_LOGON_TOKEN | 79gzbtepa2f0q72grfvazhhpsdasd | The logon token to have a persistent search token. See [Server README](ETS_SERVER_README.md#7-server-logon-token) | "" |
 | ETS_SERVER_PLAYER_DAMAGE | true | Enable/disable truck damage? | true |
 | ETS_SERVER_TRAFFIC | true | Enable/disable traffic | true |
-| ETS_SERVER_HIDE_IN_COMPANY | false | Enable/disable no collision zone in garages? | false |
-| ETS_SERVER_HIDE_COLLIDING | true | Enable/dissable collision? | true |
+| ETS_SERVER_HIDE_IN_COMPANY | false | Enable/disable hiding of players in company menu? | false |
+| ETS_SERVER_HIDE_COLLIDING | true | Enable/disable hiding of players when colliding with other players | true |
 | ETS_SERVER_FORCE_SPEEDLIMITER | false | Enable/disable speed limit | false |
 | ETS_SERVER_MODS_OPTIONING | false | ???? | false |
 | ETS_SERVER_SERVICE_NO_COLLISION | false | Enable/disable collision in service areas (repair shop / petrol station) | false |
