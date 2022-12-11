@@ -1,8 +1,12 @@
 version: '3'
 
+# You can freely choose which server to run. They don't depend on one another.
+# This file gives an example config for both games.
+
 services:
   ets2-server:
     image: lshallo/ets2-convoy-server
+    # image: ghcr.io/lshallo/ets2-convoy-server # GitHub container registry
     container_name: ets2-server
     restart: unless-stopped
     tty: true
@@ -10,12 +14,38 @@ services:
     # if you want to join via direct join token (displayed in logs on startup) you can use port mapping
     # the game will not appear in server list because the server can't determine the external IP
     #ports:
-    #  - "100:100"
-    #  - "101:101"
     #  - "27015:27015"
     #  - "27016:27016"
+    #  - "27015:27015/udp"
+    #  - "27016:27016/udp"
     volumes:
       - "/opt/ets2:/root/.local/share/Euro Truck Simulator 2"
+    environment:
+      - "ETS_SERVER_NAME=My Server"
+      - "ETS_SERVER_DESCRIPTION=My server description"
+      - "ETS_SERVER_WELCOME_MESSAGE=Welcome to my server!"
+      - "ETS_SERVER_PASSWORD=abc123"
+      - "ETS_SERVER_MAX_PLAYERS=8"
+      - "ETS_SERVER_PORT=27015"
+      - "ETS_SERVER_QUERY_PORT=27016"
+      # more variables...
+
+  ats-server:
+    image: lshallo/ats-convoy-server
+    # image: ghcr.io/lshallo/ats-convoy-server # GitHub container registry
+    container_name: ats-server
+    restart: unless-stopped
+    tty: true
+    network_mode: host # important to make game appear in server list
+    # if you want to join via direct join token (displayed in logs on startup) you can use port mapping
+    # the game will not appear in server list because the server can't determine the external IP
+    #ports:
+    #  - "27015:27015"
+    #  - "27016:27016"
+    #  - "27015:27015/udp"
+    #  - "27016:27016/udp"
+    volumes:
+      - "/opt/ats:/root/.local/share/American Truck Simulator"
     environment:
       - "ETS_SERVER_NAME=My Server"
       - "ETS_SERVER_DESCRIPTION=My server description"

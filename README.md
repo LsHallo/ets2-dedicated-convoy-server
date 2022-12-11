@@ -1,11 +1,12 @@
-# ETS2 Convoy Multiplayer Dedicated Server
-This docker container provides the new (as of Dec 2022) dedicated server for ETS2 in a simple and complete package.  
+# ETS2/ATS Convoy Multiplayer Dedicated Server
+This docker container provides the new (as of Dec 2022) dedicated server for ETS2/ATS in a simple and complete package.  
 Easy to configure and use!
 
 [GitHub Repo](https://github.com/LsHallo/ets2-dedicated-convoy-server)
 
 # Running
 ## Minimal example:
+### ETS2
 ```bash
 docker run -d \
 --name "ets2-server" \
@@ -27,7 +28,33 @@ By default the following DLC are enabled:
 
 *If you do not own any DLC and can provide me your `server_packages.dat` and `server_packages.sii` that would be a nicer default. Get in touch by opening an [issue](https://github.com/LsHallo/ets2-dedicated-convoy-server/issues) or [pull request](https://github.com/LsHallo/ets2-dedicated-convoy-server/pulls).*
 
-To use you own config see [Custom DLC/Mods](#custom-dlcmods)
+To use your own config see [Custom DLC/Mods](#custom-dlcmods)
+
+---
+### ATS
+```bash
+docker run -d \
+--name "ats-server" \
+-v "/opt/ats:/root/.local/share/American Truck Simulator" \
+--network host \
+--restart unless-stopped \
+-e "ETS_SERVER_NAME=My Server" \
+lshallo/ats-convoy-server
+```
+This minimal example will start the server with default settings and a custom name defined.  
+It will save the config files to `/opt/ats`.  
+
+By default the following DLC are enabled:
+- Beyond the Baltic Sea
+- Going East!
+- Vive la France
+- Italy
+- Scandinavia  
+
+*If you do not own any DLC and can provide me your `server_packages.dat` and `server_packages.sii` that would be a nicer default. Get in touch by opening an [issue](https://github.com/LsHallo/ets2-dedicated-convoy-server/issues) or [pull request](https://github.com/LsHallo/ets2-dedicated-convoy-server/pulls).*
+
+To use your own config see [Custom DLC/Mods](#custom-dlcmods)
+
 
 ## Docker Compose
 See [docker-compose.yml](docker-compose.yml).
