@@ -12,8 +12,8 @@ def generate_moderator_list(mod_list: list) -> str:
     ```python
     >>> print(generate_moderator_list(["1028371289", "1247129874"]))
     moderator_list: 2
-    moderator_list[]: 1028371289
-    moderator_list[]: 1247129874
+    moderator_list[0]: 1028371289
+    moderator_list[1]: 1247129874
     ```
     """
 
@@ -21,8 +21,8 @@ def generate_moderator_list(mod_list: list) -> str:
         return "moderator_list: 0"
     
     out_str = f"moderator_list: {len(mod_list)}\n"
-    for mod in mod_list:
-        out_str += f" moderator_list[]: {str(mod).strip()}\n"
+    for i, mod in enumerate(mod_list):
+        out_str += f" moderator_list[{i}]: {str(mod).strip()}\n"
     
     return out_str
 
