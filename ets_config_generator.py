@@ -117,5 +117,3 @@ server_config : _nameless.44c.eab0 {{
             print("[INFO]: Config file written.")
         else:
             print(f"[ERROR]: Could not write config file ({config_path}). Check file permissions!")
-
-    print("[INFO]: Starting server...")

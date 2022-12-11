@@ -48,3 +48,19 @@ jobs:
             lshallo/ets2-convoy-server:${{ env.RELEASE_VERSION }}
             ghcr.io/lshallo/ets2-convoy-server:latest
             ghcr.io/lshallo/ets2-convoy-server:${{ env.RELEASE_VERSION }}
+
+      - name: ATS Convoy Server | Build and Push
+        uses: docker/build-push-action@v3
+        with:
+          push: ${{ github.ref_type == 'tag' }}
+          build-args: |
+            APP_ID=2239530
+            SAVEGAME_LOCATION="/root/.local/share/American Truck Simulator/"
+            EXECUTABLE="/app/bin/linux_x64/amtrucks_server"
+            DEFAULT_PACKAGES="default_packages/ats"
+          platforms: linux/amd64
+          tags: |
+            lshallo/ats-convoy-server:latest
+            lshallo/ats-convoy-server:${{ env.RELEASE_VERSION }}
+            ghcr.io/lshallo/ats-convoy-server:latest
+            ghcr.io/lshallo/ats-convoy-server:${{ env.RELEASE_VERSION }}
