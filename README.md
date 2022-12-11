@@ -45,13 +45,8 @@ This minimal example will start the server with default settings and a custom na
 It will save the config files to `/opt/ats`.  
 
 By default the following DLC are enabled:
-- Beyond the Baltic Sea
-- Going East!
-- Vive la France
-- Italy
-- Scandinavia  
-
-*If you do not own any DLC and can provide me your `server_packages.dat` and `server_packages.sii` that would be a nicer default. Get in touch by opening an [issue](https://github.com/LsHallo/ets2-dedicated-convoy-server/issues) or [pull request](https://github.com/LsHallo/ets2-dedicated-convoy-server/pulls).*
+- Arizona
+- Nevada
 
 To use your own config see [Custom DLC/Mods](#custom-dlcmods)
 
