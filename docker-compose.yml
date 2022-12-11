@@ -1,0 +1,21 @@
+version: '3'
+
+services:
+  ets2-server:
+    image: lshallo/ets2-convoy-server
+    container_name: ets2-server
+    restart: unless-stopped
+    ports:
+      - "27015:27015"
+      - "27016:27016"
+    volumes:
+      - "/opt/ets2:/root/.local/share/Euro Truck Simulator 2"
+    environment:
+      - "ETS_SERVER_NAME=My Server"
+      - "ETS_SERVER_DESCRIPTION=My server description"
+      - "ETS_SERVER_WELCOME_MESSAGE=Welcome to my server!"
+      - "ETS_SERVER_PASSWORD=abc123"
+      - "ETS_SERVER_MAX_PLAYERS=8"
+      - "ETS_SERVER_PORT=27015"
+      - "ETS_SERVER_QUERY_PORT=27016"
+      # more variables...
