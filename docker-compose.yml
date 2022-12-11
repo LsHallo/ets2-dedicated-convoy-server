@@ -1,4 +1,4 @@
-version: '3'
+version: "3"
 
 # You can freely choose which server to run. They don't depend on one another.
 # This file gives an example config for both games.
@@ -18,8 +18,8 @@ services:
     #  - "27016:27016"
     #  - "27015:27015/udp"
     #  - "27016:27016/udp"
-    volumes:
-      - "/opt/ets2:/root/.local/share/Euro Truck Simulator 2"
+    #volumes:
+    #  - "/opt/ets2:/root/.local/share/Euro Truck Simulator 2"  # Only needed when using custom server_packages.sii and server_packages.dat
     environment:
       - "ETS_SERVER_NAME=My Server"
       - "ETS_SERVER_DESCRIPTION=My server description"
@@ -44,8 +44,8 @@ services:
     #  - "27016:27016"
     #  - "27015:27015/udp"
     #  - "27016:27016/udp"
-    volumes:
-      - "/opt/ats:/root/.local/share/American Truck Simulator"
+    #volumes:
+    #  - "/opt/ats:/root/.local/share/American Truck Simulator" # Only needed when using custom server_packages.sii and server_packages.dat
     environment:
       - "ETS_SERVER_NAME=My Server"
       - "ETS_SERVER_DESCRIPTION=My server description"

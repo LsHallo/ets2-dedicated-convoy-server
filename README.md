@@ -10,14 +10,12 @@ Easy to configure and use!
 ```bash
 docker run -d \
 --name "ets2-server" \
--v "/opt/ets2:/root/.local/share/Euro Truck Simulator 2" \
 --network host \
 --restart unless-stopped \
 -e "ETS_SERVER_NAME=My Server" \
 lshallo/ets2-convoy-server
 ```
 This minimal example will start the server with default settings and a custom name defined.  
-It will save the config files to `/opt/ets2`.  
 
 By default the following DLC are enabled:
 - Beyond the Baltic Sea
@@ -35,14 +33,12 @@ To use your own config see [Custom DLC/Mods](#custom-dlcmods)
 ```bash
 docker run -d \
 --name "ats-server" \
--v "/opt/ats:/root/.local/share/American Truck Simulator" \
 --network host \
 --restart unless-stopped \
 -e "ETS_SERVER_NAME=My Server" \
 lshallo/ats-convoy-server
 ```
 This minimal example will start the server with default settings and a custom name defined.  
-It will save the config files to `/opt/ats`.  
 
 By default the following DLC are enabled:
 - Arizona
@@ -76,8 +72,8 @@ Stop the server with `docker compose stop` and remove it with `docker compose do
 | ETS_SERVER_MAX_AI_VEHICLES_PLAYER_SPAWN | 50 | ??? | 50 |
 | ETS_SERVER_CONNECTION_VIRTUAL_PORT | 100 | Virtual connection port. Not used? | 100 |
 | ETS_SERVER_QUERY_VIRTUAL_PORT | 101 | Virtual query port. Not used? | 101 |
-| ETS_SERVER_PORT | 27015 | The external port of the server. | 27015 |
-| ETS_SERVER_QUERY_PORT | 27016 | The external query port of the server. Must be in the range 27015 - 2720 for LAN games. | 27016 |
+| ETS_SERVER_PORT | 27015 | The external port of the server. You need to forward UDP + TCP. | 27015 |
+| ETS_SERVER_QUERY_PORT | 27016 | The external query port of the server. You need to forward UDP + TCP. Must be in the range 27015 - 2720 for LAN games. | 27016 |
 | ETS_SERVER_LOGON_TOKEN | 79gzbtepa2f0q72grfvazhhpsdasd | The logon token to have a persistent search token. See [Server README](ETS_SERVER_README.md#7-server-logon-token) | "" |
 | ETS_SERVER_PLAYER_DAMAGE | true | Enable/disable player collisions | true |
 | ETS_SERVER_TRAFFIC | true | Enable/disable traffic | true |
@@ -119,4 +115,6 @@ To enable your installed DLCs or mods you need to generate custom `server_packag
 4. Go to your savegames folder again.
     - You should see 2 new files: `server_packages.dat` and `server_packages.sii`
     - Copy the files to your ets2 server data directory (replacing the existing ones)
+        - You need to mount `/root/.local/share/Euro Truck Simulator 2` to a local directory using your docker run config.
+        - Place the files in the mounted directory. E.g.: `/opt/ets2`
     - Restart your server
