@@ -70,8 +70,8 @@ Stop the server with `docker compose stop` and remove it with `docker compose do
 | ETS_SERVER_MAX_VEHICLES_TOTAL | 100 | Maximum number of vehicles on server??? | 100 |
 | ETS_SERVER_MAX_AI_VEHICLES_PLAYER | 50 | Maximum number of AI vehicles around a player??? | 50 |
 | ETS_SERVER_MAX_AI_VEHICLES_PLAYER_SPAWN | 50 | ??? | 50 |
-| ETS_SERVER_CONNECTION_VIRTUAL_PORT | 100 | Virtual connection port. Not used? | 100 |
-| ETS_SERVER_QUERY_VIRTUAL_PORT | 101 | Virtual query port. Not used? | 101 |
+| ETS_SERVER_CONNECTION_VIRTUAL_PORT | 100 | Virtual connection port. Only used internally. Do not forward. | 100 |
+| ETS_SERVER_QUERY_VIRTUAL_PORT | 101 | Virtual query port. Only used internally. Do not forward. | 101 |
 | ETS_SERVER_PORT | 27015 | The external port of the server. You need to forward UDP + TCP. | 27015 |
 | ETS_SERVER_QUERY_PORT | 27016 | The external query port of the server. You need to forward UDP + TCP. Must be in the range 27015 - 2720 for LAN games. | 27016 |
 | ETS_SERVER_LOGON_TOKEN | 79gzbtepa2f0q72grfvazhhpsdasd | The logon token to have a persistent search token. See [Server README](ETS_SERVER_README.md#7-server-logon-token) | "" |
