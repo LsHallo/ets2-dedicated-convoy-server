@@ -5,9 +5,15 @@ services:
     image: lshallo/ets2-convoy-server
     container_name: ets2-server
     restart: unless-stopped
-    ports:
-      - "27015:27015"
-      - "27016:27016"
+    tty: true
+    network_mode: host # important to make game appear in server list
+    # if you want to join via direct join token (displayed in logs on startup) you can use port mapping
+    # the game will not appear in server list because the server can't determine the external IP
+    #ports:
+    #  - "100:100"
+    #  - "101:101"
+    #  - "27015:27015"
+    #  - "27016:27016"
     volumes:
       - "/opt/ets2:/root/.local/share/Euro Truck Simulator 2"
     environment:

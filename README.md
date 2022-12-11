@@ -29,32 +29,13 @@ By default the following DLC are enabled:
 To use you own config see [Custom DLC/Mods](#custom-dlcmods)
 
 ## Docker Compose
-```yaml
-version: '3'
-
-services:
-  ets2-server:
-    image: lshallo/ets2-convoy-server
-    container_name: ets2-server
-    restart: unless-stopped
-    ports:
-      - "27015:27015"
-      - "27016:27016"
-    volumes:
-      - "/opt/ets2:/root/.local/share/Euro Truck Simulator 2"
-    environment:
-      - "ETS_SERVER_NAME=My Server"
-      - "ETS_SERVER_DESCRIPTION=My server description"
-      - "ETS_SERVER_WELCOME_MESSAGE=Welcome to my server!"
-      - "ETS_SERVER_PASSWORD=abc123"
-      - "ETS_SERVER_MAX_PLAYERS=8"
-      - "ETS_SERVER_PORT=27015"
-      - "ETS_SERVER_QUERY_PORT=27016"
-      # more variables...
-```
+See [docker-compose.yml](docker-compose.yml).
 
 Then use `docker compose up -d` to start the server.  
 You can check the logs with `docker compose logs -f`.
+
+Update the server with `docker compose pull && docker compose up -d`.
+Stop the server with `docker compose stop` and remove it with `docker compose down`.
 
 # Server Configuration
 ## Environment Variables
@@ -72,8 +53,8 @@ You can check the logs with `docker compose logs -f`.
 | ETS_SERVER_MAX_AI_VEHICLES_PLAYER_SPAWN | 50 | ??? | 50 |
 | ETS_SERVER_CONNECTION_VIRTUAL_PORT | 100 | Virtual connection port. Not used? | 100 |
 | ETS_SERVER_QUERY_VIRTUAL_PORT | 101 | Virtual query port. Not used? | 101 |
-| ETS_SERVER_PORT | 27015 | The external port of the server. Must be in range 27015 - 27020 | 27015 |
-| ETS_SERVER_QUERY_PORT | 27016 | The external query port of the server. Must be in the range 27015 - 2720 | 27016 |
+| ETS_SERVER_PORT | 27015 | The external port of the server. | 27015 |
+| ETS_SERVER_QUERY_PORT | 27016 | The external query port of the server. Must be in the range 27015 - 2720 for LAN games. | 27016 |
 | ETS_SERVER_LOGON_TOKEN | 79gzbtepa2f0q72grfvazhhpsdasd | The logon token to have a persistent search token. See [Server README](ETS_SERVER_README.md#7-server-logon-token) | "" |
 | ETS_SERVER_PLAYER_DAMAGE | true | Enable/disable player collisions | true |
 | ETS_SERVER_TRAFFIC | true | Enable/disable traffic | true |
