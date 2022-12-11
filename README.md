@@ -26,7 +26,7 @@ By default the following DLC are enabled:
 
 *If you do not own any DLC and can provide me your `server_packages.dat` and `server_packages.sii` that would be a nicer default. Get in touch by opening an [issue](https://github.com/LsHallo/ets2-dedicated-convoy-server/issues) or [pull request](https://github.com/LsHallo/ets2-dedicated-convoy-server/pulls).*
 
-To use you own config see [Custom DLC/Mods](#custom-dlc/mods)
+To use you own config see [Custom DLC/Mods](#custom-dlcmods)
 
 ## Docker Compose
 ```yaml
