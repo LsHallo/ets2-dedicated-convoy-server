@@ -7,9 +7,10 @@ Easy to configure and use!
 # Running
 ## Minimal example:
 ```bash
-docker run -d --name "ets2-server" \
+docker run -d \
+--name "ets2-server" \
 -v "/opt/ets2:/root/.local/share/Euro Truck Simulator 2" \
--p "27015:27015" -p "27016:27016" \
+--network host \
 --restart unless-stopped \
 -e "ETS_SERVER_NAME=My Server" \
 lshallo/ets2-convoy-server
