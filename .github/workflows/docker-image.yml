@@ -39,9 +39,9 @@ jobs:
           platforms: linux/amd64
           tags: |
             lshallo/ets2-convoy-server:latest
-            lshallo/ets2-convoy-server:${ GITHUB_SHA }
+            lshallo/ets2-convoy-server:${{ GITHUB_SHA }}
             ghcr.io/lshallo/ets2-convoy-server:latest
-            ghcr.io/lshallo/ets2-convoy-server:${ GITHUB_SHA }
+            ghcr.io/lshallo/ets2-convoy-server:${{ GITHUB_SHA }}
 
   build-ats:
     runs-on: ubuntu-latest
@@ -80,6 +80,6 @@ jobs:
           platforms: linux/amd64
           tags: |
             lshallo/ats-convoy-server:latest
-            lshallo/ats-convoy-server:${ GITHUB_SHA }
+            lshallo/ats-convoy-server:${{ GITHUB_SHA }}
             ghcr.io/lshallo/ats-convoy-server:latest
-            ghcr.io/lshallo/ats-convoy-server:${ GITHUB_SHA }
+            ghcr.io/lshallo/ats-convoy-server:${{ GITHUB_SHA }}
