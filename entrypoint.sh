@@ -1,10 +1,12 @@
 #!/bin/sh
 
-/usr/bin/python3 /ets_config_generator.py
+# Generate config and update server
+# I can't bash so I wrote a python script
+/usr/bin/python3 /ets_server_entrypoint.py
 
-cp -n /app/default_packages/server_packages.sii "${SAVEGAME_LOCATION}"
-cp -n /app/default_packages/server_packages.dat "${SAVEGAME_LOCATION}"
+# Copy default server_packages if they do not exist
+cp -n /default_packages/server_packages.sii "${SAVEGAME_LOCATION}"
+cp -n /default_packages/server_packages.dat "${SAVEGAME_LOCATION}"
 
 echo "[INFO]: Starting server..."
 exec "$@"
-echo "[INFO]: Entrypoint done."
