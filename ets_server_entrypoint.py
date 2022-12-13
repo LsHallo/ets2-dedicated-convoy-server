@@ -3,6 +3,7 @@
 import os
 import os.path
 
+
 def server_files_exist() -> bool:
     """
     Checks if the main server executable is present.
@@ -10,6 +11,39 @@ def server_files_exist() -> bool:
     """
     executable_path = os.getenv("EXECUTABLE")
     return os.path.isfile(executable_path)
+
+
+def generate_moderator_list(mod_list: list) -> str:
+    """
+    Generates the string required by the server_config.sii file.
+    Example:
+    ```python
+    >>> print(generate_moderator_list(["1028371289", "1247129874"]))
+    moderator_list: 2
+    moderator_list[0]: 1028371289
+    moderator_list[1]: 1247129874
+    ```
+    """
+
+    if len(mod_list) == 1 and len(mod_list[0]) < 1:
+        return "moderator_list: 0"
+    
+    out_str = f"moderator_list: {len(mod_list)}\n"
+    for i, mod in enumerate(mod_list):
+        out_str += f" moderator_list[{i}]: {str(mod).strip()}\n"
+    
+    return out_str
+
+
+def is_truthy(any_str: str) -> bool:
+    """
+    Returns True if str is "yes", "true", "on" or "1".
+    Case insensitive.
+    """
+    if any_str.lower() in ["yes", "true", "on", "1"]:
+        return True
+    return False
+
 
 def generate_config() -> str:
     """
@@ -81,35 +115,6 @@ server_config : _nameless.44c.eab0 {{
 
     return server_config
 
-def generate_moderator_list(mod_list: list) -> str:
-    """
-    Generates the string required by the server_config.sii file.
-    Example:
-    ```python
-    >>> print(generate_moderator_list(["1028371289", "1247129874"]))
-    moderator_list: 2
-    moderator_list[0]: 1028371289
-    moderator_list[1]: 1247129874
-    ```
-    """
-
-    if len(mod_list) == 1 and len(mod_list[0]) < 1:
-        return "moderator_list: 0"
-    
-    out_str = f"moderator_list: {len(mod_list)}\n"
-    for i, mod in enumerate(mod_list):
-        out_str += f" moderator_list[{i}]: {str(mod).strip()}\n"
-    
-    return out_str
-
-def is_truthy(any_str: str) -> bool:
-    """
-    Returns True if str is "yes", "true", "on" or "1".
-    Case insensitive.
-    """
-    if any_str.lower() in ["yes", "true", "on", "1"]:
-        return True
-    return False
 
 if __name__ == "__main__":
     if is_truthy(os.getenv("ETS_SERVER_WRITE_CONFIG", "true")):
@@ -130,5 +135,3 @@ if __name__ == "__main__":
         print("[INFO]: Update done.")
     else:
         print("[INFO]: Skipping server update. To update set 'ETS_SERVER_UPDATE_ON_START=true'.")
-
- 

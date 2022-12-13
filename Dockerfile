@@ -25,6 +25,7 @@ RUN chmod +x /entrypoint
 COPY ["${DEFAULT_PACKAGES}/server_packages.dat", "/default_packages/"]
 COPY ["${DEFAULT_PACKAGES}/server_packages.sii", "/default_packages/"]
 
+# needed for ETS server to find steamclient.so
 ENV LD_LIBRARY_PATH='/app/linux64'
 
 ENTRYPOINT [ "/entrypoint" ]
