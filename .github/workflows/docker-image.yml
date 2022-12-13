@@ -16,6 +16,16 @@ jobs:
     steps:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
+      
+      - name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v4
+        with:
+          tags: |
+            type=raw,value=latest,enable={{is_default_branch}}
+          images: |
+            lshallo/ets2-convoy-server
+            ghcr.io/lshallo/ets2-convoy-server
 
       - name: Login to Docker Hub
         uses: docker/login-action@v2
@@ -37,11 +47,8 @@ jobs:
         with:
           push: ${{ github.ref_type == 'tag' }}
           platforms: linux/amd64
-          tags: |
-            lshallo/ets2-convoy-server:latest
-            lshallo/ets2-convoy-server:${{ GITHUB_SHA }}
-            ghcr.io/lshallo/ets2-convoy-server:latest
-            ghcr.io/lshallo/ets2-convoy-server:${{ GITHUB_SHA }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
 
   build-ats:
     runs-on: ubuntu-latest
@@ -52,6 +59,16 @@ jobs:
     steps:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
+      
+      - name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v4
+        with:
+          tags: |
+            type=raw,value=latest,enable={{is_default_branch}}
+          images: |
+            lshallo/ats-convoy-server
+            ghcr.io/lshallo/ats-convoy-server
 
       - name: Login to Docker Hub
         uses: docker/login-action@v2
@@ -78,8 +95,5 @@ jobs:
             EXECUTABLE=/app/bin/linux_x64/amtrucks_server
             DEFAULT_PACKAGES=default_packages/ats
           platforms: linux/amd64
-          tags: |
-            lshallo/ats-convoy-server:latest
-            lshallo/ats-convoy-server:${{ GITHUB_SHA }}
-            ghcr.io/lshallo/ats-convoy-server:latest
-            ghcr.io/lshallo/ats-convoy-server:${{ GITHUB_SHA }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
