@@ -1,9 +1,17 @@
 #!/usr/bin/python3
 
 import os
-import subprocess
-import sys
-from random import randrange
+import os.path
+
+
+def server_files_exist() -> bool:
+    """
+    Checks if the main server executable is present.
+    Uses env variable `EXECUTABLE` as path to check.
+    """
+    executable_path = os.getenv("EXECUTABLE")
+    return os.path.isfile(executable_path)
+
 
 def generate_moderator_list(mod_list: list) -> str:
     """
@@ -26,6 +34,7 @@ def generate_moderator_list(mod_list: list) -> str:
     
     return out_str
 
+
 def is_truthy(any_str: str) -> bool:
     """
     Returns True if str is "yes", "true", "on" or "1".
@@ -35,17 +44,12 @@ def is_truthy(any_str: str) -> bool:
         return True
     return False
 
-def phex(num: int) -> str:
-    """
-    Prints a number as hex without leading "0x"
-    """
-    return hex(num)[2:]
 
-if __name__ == "__main__":
-    if not is_truthy(os.getenv("ETS_SERVER_WRITE_CONFIG", "true")):
-        print("[INFO]: Not writing config file. As you wish.\nStarting server...")
-        exit()
-
+def generate_config() -> str:
+    """
+    Generates the config file based on environment variables.
+    Conforms to SCS scheme (that is sadly not published...).
+    """
     print("[INFO]: Writing config file...")
 
     server_name = os.getenv("ETS_SERVER_NAME", "Euro Truck Simulator 2 Docker Server")
@@ -109,11 +113,25 @@ server_config : _nameless.44c.eab0 {{
 }}
 """
 
-    config_path = os.getenv("ETS_SERVER_CONFIG_FILE_PATH", "/root/.local/share/Euro Truck Simulator 2/server_config.sii")
-    with open(config_path, "w") as f:
-        if f.writable():
-            f.write(server_config)
-            f.flush()
-            print("[INFO]: Config file written.")
-        else:
-            print(f"[ERROR]: Could not write config file ({config_path}). Check file permissions!")
+    return server_config
+
+
+if __name__ == "__main__":
+    if is_truthy(os.getenv("ETS_SERVER_WRITE_CONFIG", "true")):
+        config = generate_config()
+        config_path = os.getenv("ETS_SERVER_CONFIG_FILE_PATH", "/root/.local/share/Euro Truck Simulator 2/server_config.sii")
+        with open(config_path, "w") as f:
+            if f.writable():
+                f.write(config)
+                f.flush()
+                print("[INFO]: Config file written.")
+            else:
+                print(f"[ERROR]: Could not write config file ({config_path}). Check file permissions!")
+    
+    if is_truthy(os.getenv("ETS_SERVER_UPDATE_ON_START", "false")) or not server_files_exist():
+        print("[INFO]: Updating ETS Server...")
+        APP_ID = os.getenv("APP_ID")
+        os.system(f"steamcmd +force_install_dir /app +login anonymous +app_update {APP_ID} +quit")
+        print("[INFO]: Update done.")
+    else:
+        print("[INFO]: Skipping server update. To update set 'ETS_SERVER_UPDATE_ON_START=true'.")
