@@ -21,8 +21,6 @@ jobs:
         id: meta
         uses: docker/metadata-action@v4
         with:
-          tags: |
-            type=raw,value=latest,enable={{is_default_branch}}
           images: |
             lshallo/ets2-convoy-server
             ghcr.io/lshallo/ets2-convoy-server
@@ -64,8 +62,6 @@ jobs:
         id: meta
         uses: docker/metadata-action@v4
         with:
-          tags: |
-            type=raw,value=latest,enable={{is_default_branch}}
           images: |
             lshallo/ats-convoy-server
             ghcr.io/lshallo/ats-convoy-server
