@@ -64,7 +64,7 @@ Stop the server with `docker compose stop` and remove it with `docker compose do
 | Variable Name | Example | Description | Default |
 | ---------------- | ------------------ | ----------------- | ---------- |
 | ETS_SERVER_WRITE_CONFIG | true | Enable/disable automatic config generation from env variables. | true |
-| ETS_SERVER_UPDATE_ON_START | false | Enable/disable update on server start. Will always update on first start to get server files. | false |
+| ETS_SERVER_UPDATE_ON_START | true | Enable/disable update on server start. Will always update on first start to get server files. | true |
 | ETS_SERVER_NAME | My Server | The name of the server. Shown ingame. | Euro Truck Simulator 2 Docker Server |
 | ETS_SERVER_DESCRIPTION | Join me! | The description of the server. Shown ingame. | "" |
 | ETS_SERVER_WELCOME_MESSAGE | Welcome to my server! | The welcome message. Shown ingame. | "" |
