@@ -12,6 +12,7 @@ docker run -d \
 --name "ets2-server" \
 --network host \
 --restart unless-stopped \
+-v "/opt/ets2-server:/app" \
 -e "ETS_SERVER_NAME=My Server" \
 lshallo/ets2-convoy-server
 ```
@@ -35,6 +36,7 @@ docker run -d \
 --name "ats-server" \
 --network host \
 --restart unless-stopped \
+-v "/opt/ats-server:/app" \
 -e "ETS_SERVER_NAME=My Server" \
 lshallo/ats-convoy-server
 ```
