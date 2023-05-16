@@ -24,7 +24,7 @@ RUN mkdir -p "${SAVEGAME_LOCATION}" \
     && mkdir -p /default_packages \
     && mkdir -p /home/steam/.steam/sdk64 \
     && ln -s /home/steam/steamcmd/linux64/steamclient.so /home/steam/.steam/sdk64/steamclient.so \
-    && chown steam:steam -R /home/steam/.steam/sdk64 /home/steam/.steam/sdk32
+    && chown steam:steam -R /home/steam/.steam/sdk64
 
 COPY ets_server_entrypoint.py /ets_server_entrypoint.py
 COPY entrypoint.sh /entrypoint
