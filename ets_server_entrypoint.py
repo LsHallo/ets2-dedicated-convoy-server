@@ -109,7 +109,6 @@ server_config : _nameless.44c.eab0 {{
  show_server: {str(show_server).lower()}
  {moderator_list_generated}
 }}
-
 }}
 """
 
@@ -119,7 +118,7 @@ server_config : _nameless.44c.eab0 {{
 if __name__ == "__main__":
     if is_truthy(os.getenv("ETS_SERVER_WRITE_CONFIG", "true")):
         config = generate_config()
-        config_path = os.getenv("ETS_SERVER_CONFIG_FILE_PATH", "/root/.local/share/Euro Truck Simulator 2/server_config.sii")
+        config_path = os.getenv("ETS_SERVER_CONFIG_FILE_PATH", "/home/steam/.local/share/Euro Truck Simulator 2/server_config.sii")
         with open(config_path, "w") as f:
             if f.writable():
                 f.write(config)
@@ -127,11 +126,11 @@ if __name__ == "__main__":
                 print("[INFO]: Config file written.")
             else:
                 print(f"[ERROR]: Could not write config file ({config_path}). Check file permissions!")
-    
-    if is_truthy(os.getenv("ETS_SERVER_UPDATE_ON_START", "false")) or not server_files_exist():
+
+    if is_truthy(os.getenv("ETS_SERVER_UPDATE_ON_START", "true")) or not server_files_exist():
         print("[INFO]: Updating ETS Server...")
         APP_ID = os.getenv("APP_ID")
-        os.system(f"steamcmd +force_install_dir /app +login anonymous +app_update {APP_ID} +quit")
+        os.system(f"/home/steam/steamcmd/steamcmd.sh +force_install_dir /app +login anonymous +app_update {APP_ID} +quit")
         print("[INFO]: Update done.")
     else:
         print("[INFO]: Skipping server update. To update set 'ETS_SERVER_UPDATE_ON_START=true'.")

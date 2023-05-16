@@ -87,7 +87,7 @@ jobs:
           push: ${{ github.ref_type == 'tag' }}
           build-args: |
             APP_ID=2239530
-            SAVEGAME_LOCATION=/root/.local/share/American Truck Simulator/
+            SAVEGAME_LOCATION=/home/steam/.local/share/American Truck Simulator/
             EXECUTABLE=/app/bin/linux_x64/amtrucks_server
             DEFAULT_PACKAGES=default_packages/ats
           platforms: linux/amd64

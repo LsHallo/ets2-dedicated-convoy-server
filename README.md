@@ -2,7 +2,16 @@
 This docker container provides the new (as of Dec 2022) dedicated server for ETS2/ATS in a simple and complete package.  
 Easy to configure and use!
 
-[GitHub Repo](https://github.com/LsHallo/ets2-dedicated-convoy-server)
+# Contents
+ - [Running](#running)
+   - [ETS2](#ets2)
+   - [ATS](#ats)
+ - [Environment Variables](#environment-variables)
+ - [Custom DLCs/Mods (Untested)](#custom-dlcmods)
+ - [Troubleshooting](#troubleshooting)
+   - [Login Error 15](#login-error-15)
+   - [Login Error 106](#login-error-106)
+   - [Can't write config file `server_config.sii`](#cant-write-config-file-server_configsii)
 
 # Running
 ## Minimal example:
@@ -64,7 +73,7 @@ Stop the server with `docker compose stop` and remove it with `docker compose do
 | Variable Name | Example | Description | Default |
 | ---------------- | ------------------ | ----------------- | ---------- |
 | ETS_SERVER_WRITE_CONFIG | true | Enable/disable automatic config generation from env variables. | true |
-| ETS_SERVER_UPDATE_ON_START | false | Enable/disable update on server start. Will always update on first start to get server files. | false |
+| ETS_SERVER_UPDATE_ON_START | true | Enable/disable update on server start. Will always update on first start to get server files. | true |
 | ETS_SERVER_NAME | My Server | The name of the server. Shown ingame. | Euro Truck Simulator 2 Docker Server |
 | ETS_SERVER_DESCRIPTION | Join me! | The description of the server. Shown ingame. | "" |
 | ETS_SERVER_WELCOME_MESSAGE | Welcome to my server! | The welcome message. Shown ingame. | "" |
@@ -89,7 +98,7 @@ Stop the server with `docker compose stop` and remove it with `docker compose do
 | ETS_SERVER_FRIENDS_ONLY | false | Limit server to steam friends??? | false |
 | ETS_SERVER_SHOW_SERVER | true | Show server in public server list? | true |
 | ETS_SERVER_MODERATORS | 208370238402, 2384723894723, 283947923 | List of steam IDs to turn moderatos on join. Moderators can alter the server time. See [Server README](ETS_SERVER_README.md#8-session-moderators) | "" |
-| ETS_SERVER_CONFIG_FILE_PATH | /home/user/ets/server_config.sii | Path to server config file. | /root/.local/share/Euro Truck Simulator 2/server_config.sii |
+| ETS_SERVER_CONFIG_FILE_PATH | /home/user/ets/server_config.sii | Path to server config file. | /home/steam/.local/share/Euro Truck Simulator 2/server_config.sii |
 
 *As you can probably tell, there are some question marks in the descriptions. I'm not sure what the parameters are doing. If you have any clue, please open an [issue](https://github.com/LsHallo/ets2-dedicated-convoy-server/issues) or [pull request](https://github.com/LsHallo/ets2-dedicated-convoy-server/pulls).*
 
@@ -118,6 +127,30 @@ To enable your installed DLCs or mods you need to generate custom `server_packag
 4. Go to your savegames folder again.
     - You should see 2 new files: `server_packages.dat` and `server_packages.sii`
     - Copy the files to your ets2 server data directory (replacing the existing ones)
-        - You need to mount `/root/.local/share/Euro Truck Simulator 2` to a local directory using your docker run config.
+        - You need to mount `/home/steam/.local/share/Euro Truck Simulator 2` to a local directory using your docker run config.
         - Place the files in the mounted directory. E.g.: `/opt/ets2`
     - Restart your server
+
+
+
+# Troubleshooting
+
+
+## Login Error 15
+Login error 15 indicates that the token is for the wrong game. Please check that you have not used your ETS token for ATS or similar.  
+
+See [ETS_SERVER_README.md](ETS_SERVER_README.md#7-server-logon-token) to genrate a new token.
+
+
+## Login Error 106
+Login error 106 indicates that your logon token is invalid.  
+The token will lose validity after some time and you will need to generate a new one.  
+To check if the token is still valid log into steam in a browser and go to [https://steamcommunity.com/dev/managegameservers](https://steamcommunity.com/dev/managegameservers).  
+If the token has strike through it is no longer valid.  
+
+See [ETS_SERVER_README.md](ETS_SERVER_README.md#7-server-logon-token) to genrate a new token.
+
+
+## Can't write config file `server_config.sii`
+Make sure the mounted folder owner is user id 1000.
+`chown -R 1000:1000 /opt/ets2` (or whereever you have mounted it)
