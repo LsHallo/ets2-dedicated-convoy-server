@@ -118,7 +118,7 @@ server_config : _nameless.44c.eab0 {{
 if __name__ == "__main__":
     if is_truthy(os.getenv("ETS_SERVER_WRITE_CONFIG", "true")):
         config = generate_config()
-        config_path = os.getenv("ETS_SERVER_CONFIG_FILE_PATH", "/root/.local/share/Euro Truck Simulator 2/server_config.sii")
+        config_path = os.getenv("ETS_SERVER_CONFIG_FILE_PATH", "/home/steam/.local/share/Euro Truck Simulator 2/server_config.sii")
         with open(config_path, "w") as f:
             if f.writable():
                 f.write(config)
