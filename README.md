@@ -9,8 +9,8 @@ Easy to configure and use!
  - [Environment Variables](#environment-variables)
  - [Custom DLCs/Mods (Untested)](#custom-dlcmods)
  - [Troubleshooting](#troubleshooting)
-   - [Login Error 106](#login-error-106)
    - [Login Error 15](#login-error-15)
+   - [Login Error 106](#login-error-106)
 
 # Running
 ## Minimal example:
@@ -132,14 +132,15 @@ To enable your installed DLCs or mods you need to generate custom `server_packag
 
 # Troubleshooting
 
-## Login Error 106
-Login error 106 indicates that your logon token is invalid.  
-The token will lose validity after some time and you will need to generate a new one.  
+## Login Error 15
+Login error 15 indicates that the token is for the wrong game. Please check that you have not used your ETS token for ATS or similar.  
 
 See [ETS_SERVER_README.md](ETS_SERVER_README.md#7-server-logon-token) to genrate a new token.
 
-## Login Error 15
-Login error 15 indicated that it is for the wrong game. Please check that you have not used your ETS token for ATS or similar.  
+## Login Error 106
+Login error 106 indicates that your logon token is invalid.  
+The token will lose validity after some time and you will need to generate a new one.  
 To check if the token is still valid log into steam in a browser and go to [https://steamcommunity.com/dev/managegameservers](https://steamcommunity.com/dev/managegameservers).  
 If the token has strike through it is no longer valid.  
+
 See [ETS_SERVER_README.md](ETS_SERVER_README.md#7-server-logon-token) to genrate a new token.
