@@ -20,7 +20,7 @@ services:
     #  - "27016:27016/udp"
     volumes:
       - "/opt/ets2-server/game-data:/app" # server data
-    #  - "/opt/ets2-server/save-data:/root/.local/share/Euro Truck Simulator 2"  # Only needed when using custom server_packages.sii and server_packages.dat
+    #  - "/opt/ets2-server/save-data:/home/steam/.local/share/Euro Truck Simulator 2"  # Only needed when using custom server_packages.sii and server_packages.dat
     environment:
       - "ETS_SERVER_UPDATE_ON_START=true"
       - "ETS_SERVER_NAME=My Server"
@@ -48,7 +48,7 @@ services:
     #  - "27016:27016/udp"
     volumes:
       - "/opt/ats-server/game-data:/app" # server data
-    #  - "/opt/ats-server/save-data:/root/.local/share/American Truck Simulator" # Only needed when using custom server_packages.sii and server_packages.dat
+    #  - "/opt/ats-server/save-data:/home/steam/.local/share/American Truck Simulator" # Only needed when using custom server_packages.sii and server_packages.dat
     environment:
       - "ETS_SERVER_UPDATE_ON_START=true"
       - "ETS_SERVER_NAME=My Server"

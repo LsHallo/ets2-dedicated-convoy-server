@@ -11,6 +11,7 @@ Easy to configure and use!
  - [Troubleshooting](#troubleshooting)
    - [Login Error 15](#login-error-15)
    - [Login Error 106](#login-error-106)
+   - [Can't write config file `server_config.sii`](#cant-write-config-file-server_configsii)
 
 # Running
 ## Minimal example:
@@ -126,16 +127,20 @@ To enable your installed DLCs or mods you need to generate custom `server_packag
 4. Go to your savegames folder again.
     - You should see 2 new files: `server_packages.dat` and `server_packages.sii`
     - Copy the files to your ets2 server data directory (replacing the existing ones)
-        - You need to mount `/root/.local/share/Euro Truck Simulator 2` to a local directory using your docker run config.
+        - You need to mount `/home/steam/.local/share/Euro Truck Simulator 2` to a local directory using your docker run config.
         - Place the files in the mounted directory. E.g.: `/opt/ets2`
     - Restart your server
 
+
+
 # Troubleshooting
+
 
 ## Login Error 15
 Login error 15 indicates that the token is for the wrong game. Please check that you have not used your ETS token for ATS or similar.  
 
 See [ETS_SERVER_README.md](ETS_SERVER_README.md#7-server-logon-token) to genrate a new token.
+
 
 ## Login Error 106
 Login error 106 indicates that your logon token is invalid.  
@@ -144,3 +149,8 @@ To check if the token is still valid log into steam in a browser and go to [http
 If the token has strike through it is no longer valid.  
 
 See [ETS_SERVER_README.md](ETS_SERVER_README.md#7-server-logon-token) to genrate a new token.
+
+
+## Can't write config file `server_config.sii`
+Make sure the mounted folder owner is user id 1000.
+`chown -R 1000:1000 /opt/ets2` (or whereever you have mounted it)
