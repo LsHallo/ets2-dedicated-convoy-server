@@ -22,9 +22,10 @@ RUN apt-get update && apt-get install -y python3
 RUN mkdir -p "${SAVEGAME_LOCATION}" \
     && chown steam:steam -R "${SAVEGAME_LOCATION}" \
     && mkdir -p /default_packages \
-    && mkdir -p /home/steam/.steam/sdk64 \
+    && mkdir -p /home/steam/.steam/sdk64 /home/steam/.steam/sdk32 \
     && ln -s /home/steam/steamcmd/linux64/steamclient.so /home/steam/.steam/sdk64/steamclient.so \
-    && chown steam:steam -R /home/steam/.steam/sdk64
+    && ln -s /home/steam/steamcmd/linux32/steamclient.so /home/steam/.steam/sdk32/steamclient.so \
+    && chown steam:steam -R /home/steam/.steam/sdk64 /home/steam/.steam/sdk32
 
 COPY ets_server_entrypoint.py /ets_server_entrypoint.py
 COPY entrypoint.sh /entrypoint

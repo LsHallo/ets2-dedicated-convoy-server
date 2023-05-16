@@ -126,7 +126,7 @@ if __name__ == "__main__":
                 print("[INFO]: Config file written.")
             else:
                 print(f"[ERROR]: Could not write config file ({config_path}). Check file permissions!")
-    
+
     if is_truthy(os.getenv("ETS_SERVER_UPDATE_ON_START", "true")) or not server_files_exist():
         print("[INFO]: Updating ETS Server...")
         APP_ID = os.getenv("APP_ID")
