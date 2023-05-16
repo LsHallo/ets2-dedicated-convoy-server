@@ -61,7 +61,9 @@ Search id is listed when starting dedicated server or in convoy info screen for 
 
 ## 7. Server logon token
 ---
-By default whenever a dedicated server is launched it is using an anonymous account. For such an account non-persistent server id is generated (used for direct search). To avoid this you can acquire a logon token on https://steamcommunity.com/dev/managegameservers (game ownership is required).
+By default whenever a dedicated server is launched it is using an anonymous account. For such an account non-persistent server id is generated (used for direct search). To avoid this you can acquire a logon token on [https://steamcommunity.com/dev/managegameservers](https://steamcommunity.com/dev/managegameservers) (game ownership is required).  
+For ETS use AppID 227300, for ATS use AppID 270880.  
+**Do not use the server AppIDs (1948160, 2239530)!**
 
 
 ## 8. Session moderators
