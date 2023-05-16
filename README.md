@@ -7,7 +7,7 @@ Easy to configure and use!
    - [ETS2](#ets2)
    - [ATS](#ats)
  - [Environment Variables](#environment-variables)
- - [Custom DLCs/Mods (Untested)](#custom-dlcmods)
+ - [Custom DLCs/Mods](#custom-dlcmods)
  - [Troubleshooting](#troubleshooting)
    - [Login Error 15](#login-error-15)
    - [Login Error 106](#login-error-106)
