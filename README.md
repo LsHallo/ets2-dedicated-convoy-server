@@ -21,7 +21,6 @@ docker run -d \
 --name "ets2-server" \
 --network host \
 --restart unless-stopped \
--v "/opt/ets2-server:/app" \
 -e "ETS_SERVER_NAME=My Server" \
 lshallo/ets2-convoy-server
 ```
@@ -34,6 +33,7 @@ By default the following DLC are enabled:
 - Italy
 - Scandinavia  
 
+These seem not to be required to join.  
 *If you do not own any DLC and can provide me your `server_packages.dat` and `server_packages.sii` that would be a nicer default. Get in touch by opening an [issue](https://github.com/LsHallo/ets2-dedicated-convoy-server/issues) or [pull request](https://github.com/LsHallo/ets2-dedicated-convoy-server/pulls).*
 
 To use your own config see [Custom DLC/Mods](#custom-dlcmods)
@@ -45,7 +45,6 @@ docker run -d \
 --name "ats-server" \
 --network host \
 --restart unless-stopped \
--v "/opt/ats-server:/app" \
 -e "ETS_SERVER_NAME=My Server" \
 lshallo/ats-convoy-server
 ```
