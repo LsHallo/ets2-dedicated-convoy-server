@@ -130,7 +130,8 @@ if __name__ == "__main__":
     if is_truthy(os.getenv("ETS_SERVER_UPDATE_ON_START", "true")) or not server_files_exist():
         print("[INFO]: Updating ETS Server...")
         APP_ID = os.getenv("APP_ID")
-        os.system(f"/home/steam/steamcmd/steamcmd.sh +force_install_dir /app +login anonymous +app_update {APP_ID} +quit")
+        beta_argument = " -beta " + os.getenv("ETS_SERVER_BRANCH") if os.getenv("ETS_SERVER_BRANCH") else ""
+        os.system(f"/home/steam/steamcmd/steamcmd.sh +force_install_dir /app +login anonymous +app_update {APP_ID}{beta_argument} +quit")
         print("[INFO]: Update done.")
     else:
         print("[INFO]: Skipping server update. To update set 'ETS_SERVER_UPDATE_ON_START=true'.")
