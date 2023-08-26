@@ -98,6 +98,7 @@ Stop the server with `docker compose stop` and remove it with `docker compose do
 | ETS_SERVER_SHOW_SERVER | true | Show server in public server list? | true |
 | ETS_SERVER_MODERATORS | 208370238402, 2384723894723, 283947923 | List of steam IDs to turn moderatos on join. Moderators can alter the server time. See [Server README](ETS_SERVER_README.md#8-session-moderators) | "" |
 | ETS_SERVER_CONFIG_FILE_PATH | /home/user/ets/server_config.sii | Path to server config file. | /home/steam/.local/share/Euro Truck Simulator 2/server_config.sii |
+| ETS_SERVER_BRANCH | temporary_1_47 | Server branch. Allows downgrading to an older version. At SteamDB you'll find available branches for both [ETS2](https://steamdb.info/app/1948160/depots) and [ATS](https://steamdb.info/app/2239530/depots). To return back to the latest public release, use "public" | "" |
 
 *As you can probably tell, there are some question marks in the descriptions. I'm not sure what the parameters are doing. If you have any clue, please open an [issue](https://github.com/LsHallo/ets2-dedicated-convoy-server/issues) or [pull request](https://github.com/LsHallo/ets2-dedicated-convoy-server/pulls).*
 
