@@ -71,6 +71,7 @@ def generate_config() -> str:
     hide_colliding = is_truthy(os.getenv("ETS_SERVER_HIDE_COLLIDING", "true"))
     force_speedlimiter = is_truthy(os.getenv("ETS_SERVER_FORCE_SPEEDLIMITER", "false"))
     mods_optioning = is_truthy(os.getenv("ETS_SERVER_MODS_OPTIONING", "false"))
+    timezones = is_truthy(os.getenv("ETS_SERVER_TIMEZONES", "false"))
     service_no_collision = is_truthy(os.getenv("ETS_SERVER_SERVICE_NO_COLLISION", "false"))
     in_menu_ghosting = is_truthy(os.getenv("ETS_SERVER_IN_MENU_GHOSTING", "false"))
     name_tags = is_truthy(os.getenv("ETS_SERVER_NAME_TAGS", "true"))
@@ -102,6 +103,7 @@ server_config : _nameless.44c.eab0 {{
  hide_colliding: {str(hide_colliding).lower()}
  force_speed_limiter: {str(force_speedlimiter).lower()}
  mods_optioning: {str(mods_optioning).lower()}
+ timezones: {int(timezones)}
  service_no_collision: {str(service_no_collision).lower()}
  in_menu_ghosting: {str(in_menu_ghosting).lower()}
  name_tags: {str(name_tags).lower()}
