@@ -92,6 +92,7 @@ Stop the server with `docker compose stop` and remove it with `docker compose do
 | ETS_SERVER_HIDE_COLLIDING | true | Enable/disable hiding of players in no collisions zone | true |
 | ETS_SERVER_FORCE_SPEEDLIMITER | false | Enable/disable speed limit | false |
 | ETS_SERVER_MODS_OPTIONING | false | Enable optional mods | false |
+| ETS_SERVER_TIMEZONES | false | Enable time zones | false |
 | ETS_SERVER_SERVICE_NO_COLLISION | false | Enable/disable collision in service areas (true = collisions enable, false = collisions disabled) | false |
 | ETS_SERVER_NAME_TAGS | true | Enable/disable display of name tags above trucks | true |
 | ETS_SERVER_FRIENDS_ONLY | false | Limit server to steam friends??? | false |
