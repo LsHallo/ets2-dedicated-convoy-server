@@ -7,7 +7,7 @@ Easy to configure and use!
    - [ETS2](#ets2)
    - [ATS](#ats)
  - [Environment Variables](#environment-variables)
- - [Custom DLCs/Mods](#custom-dlcmods)
+ - [Custom Mods](#custom-mods)
  - [Troubleshooting](#troubleshooting)
    - [Login Error 15](#login-error-15)
    - [Login Error 106](#login-error-106)
@@ -26,17 +26,7 @@ lshallo/ets2-convoy-server
 ```
 This minimal example will start the server with default settings and a custom name defined.  
 
-By default the following DLC are enabled:
-- Beyond the Baltic Sea
-- Going East!
-- Vive la France
-- Italy
-- Scandinavia  
-
-These seem not to be required to join.  
-*If you do not own any DLC and can provide me your `server_packages.dat` and `server_packages.sii` that would be a nicer default. Get in touch by opening an [issue](https://github.com/LsHallo/ets2-dedicated-convoy-server/issues) or [pull request](https://github.com/LsHallo/ets2-dedicated-convoy-server/pulls).*
-
-To use your own config see [Custom DLC/Mods](#custom-dlcmods)
+To use your own config see [Mods](#custom-mods)
 
 ---
 ### ATS
@@ -50,11 +40,7 @@ lshallo/ats-convoy-server
 ```
 This minimal example will start the server with default settings and a custom name defined.  
 
-By default the following DLC are enabled:
-- Arizona
-- Nevada
-
-To use your own config see [Custom DLC/Mods](#custom-dlcmods)
+To use your own config see [Mods](#custom-mods)
 
 
 ## Docker Compose
@@ -104,9 +90,9 @@ Stop the server with `docker compose stop` and remove it with `docker compose do
 *As you can probably tell, there are some question marks in the descriptions. I'm not sure what the parameters are doing. If you have any clue, please open an [issue](https://github.com/LsHallo/ets2-dedicated-convoy-server/issues) or [pull request](https://github.com/LsHallo/ets2-dedicated-convoy-server/pulls).*
 
 
-## Custom DLC/Mods
+## Custom Mods
 ---
-To enable your installed DLCs or mods you need to generate custom `server_packages.dat` and `server_packages.sii` files.
+To enable your installed mods you need to generate custom `server_packages.dat` and `server_packages.sii` files.
 
 1. Locate your ETS2 savegames folder
     - Windows: `%USERPROFILE%\Documents\Euro Truck Simulator 2`
@@ -121,7 +107,7 @@ To enable your installed DLCs or mods you need to generate custom `server_packag
     - Search for `uset g_developer "0"` and replace it with `uset g_developer "1"`
     - Save the file
 
-3. Start the game and load your desired save. The state (where your truck is) of the save is not important we will only export mods and DLC.
+3. Start the game and load your desired save. The state (where your truck is) of the save is not important. We will only export mods.
     - Open the console by pressing the `~` key (left of 1 in the number row). It will vary depending on your keyboard layout.
     - Type `export_server_packages` in the console at the bottom of the screen and press enter.
 
