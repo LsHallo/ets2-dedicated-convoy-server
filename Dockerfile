@@ -16,14 +16,13 @@ WORKDIR /app
 # Install python for init script
 USER root
 ENV DEBIAN_FRONTEND=noninteractive
-RUN apt-get update && apt-get install -y python3
+RUN apt-get update && apt-get install -y python3 && apt-get clean
 
 # Create required dirs and symlinks
 RUN mkdir -p "${SAVEGAME_LOCATION}" \
     && chown steam:steam -R "${SAVEGAME_LOCATION}" \
     && mkdir -p /default_packages \
     && mkdir -p /home/steam/.steam/sdk64 \
-    && ln -s /home/steam/steamcmd/linux64/steamclient.so /home/steam/.steam/sdk64/steamclient.so \
     && chown steam:steam -R /home/steam/.steam/sdk64
 
 COPY ets_server_entrypoint.py /ets_server_entrypoint.py
