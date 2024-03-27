@@ -19,8 +19,12 @@ services:
     #  - "27015:27015/udp"
     #  - "27016:27016/udp"
     # volumes:
-    #  - "/opt/ets2-server/game-data:/app" # server files
-    #  - "/opt/ets2-server/save-data:/home/steam/.local/share/Euro Truck Simulator 2"  # Only needed when using custom server_packages.sii and server_packages.dat
+    # Server files. (executable, libraries)
+    # Only mount if you know what you are doing. Can lead to permissions issues.
+    #  - "/opt/ets2-server/game-data:/app"
+    # Only needed when using custom server_packages.sii and server_packages.dat.
+    # Also keeps banlist. If you want to persist the banlist mount this folder.
+    #  - "/opt/ets2-server/save-data:/home/steam/.local/share/Euro Truck Simulator 2"
     environment:
       - "ETS_SERVER_UPDATE_ON_START=true"
       - "ETS_SERVER_NAME=My Server"
