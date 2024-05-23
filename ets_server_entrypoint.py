@@ -130,7 +130,7 @@ if __name__ == "__main__":
             else:
                 print(f"[ERROR]: Could not write config file ({config_path}). Check file permissions!")
         
-        max_players = os.getenv("ETS_SERVER_MAX_PLAYERS", 8)
+        max_players = int(os.getenv("ETS_SERVER_MAX_PLAYERS", 8))
         if max_players > 8:
             print("[INFO]: You requested more than 8 players. Trying a workaround to enable this...")
             if max_players > 128:
