@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 
 import os
+import re
 import os.path
 
 
@@ -128,6 +129,22 @@ if __name__ == "__main__":
                 print("[INFO]: Config file written.")
             else:
                 print(f"[ERROR]: Could not write config file ({config_path}). Check file permissions!")
+        
+        max_players = os.getenv("ETS_SERVER_MAX_PLAYERS", 8)
+        if max_players > 8:
+            print("[INFO]: You requested more than 8 players. Trying a workaround to enable this...")
+            if max_players > 128:
+                print("[WARNING]: !!You requested more than 128 players. This probably wont work!!")
+            server_config = config_path.replace("server_config.sii", "config_ds.cfg")
+            with open(server_config, "r") as f:
+                lines = f.readlines()
+                for line in lines:
+                    if line.index("g_max_convoy_size"):
+                        re.sub("\d+", str(max_players), line)
+                
+                with open(server_config, "w+") as fw:
+                    fw.write(lines)
+
 
     if is_truthy(os.getenv("ETS_SERVER_UPDATE_ON_START", "true")) or not server_files_exist():
         print("[INFO]: Updating ETS Server...")
