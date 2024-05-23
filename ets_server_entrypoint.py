@@ -144,6 +144,8 @@ if __name__ == "__main__":
                 
                 with open(server_config, "w+") as fw:
                     fw.write(lines)
+            
+            os.chmod(server_config, 0o400)
 
 
     if is_truthy(os.getenv("ETS_SERVER_UPDATE_ON_START", "true")) or not server_files_exist():
