@@ -139,11 +139,11 @@ if __name__ == "__main__":
             with open(server_config, "r") as f:
                 lines = f.readlines()
                 for line in lines:
-                    if line.index("g_max_convoy_size"):
+                    if line.find("g_max_convoy_size") != -1:
                         re.sub("\d+", str(max_players), line)
                 
                 with open(server_config, "w+") as fw:
-                    fw.write(lines)
+                    fw.writelines(lines)
             
             os.chmod(server_config, 0o400)
 
