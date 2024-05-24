@@ -121,31 +121,31 @@ server_config : _nameless.44c.eab0 {{
 if __name__ == "__main__":
     if is_truthy(os.getenv("ETS_SERVER_WRITE_CONFIG", "true")):
         config = generate_config()
-        config_path = os.getenv("ETS_SERVER_CONFIG_FILE_PATH", "/home/steam/.local/share/Euro Truck Simulator 2/server_config.sii")
-        with open(config_path, "w") as f:
+        server_config = os.getenv("ETS_SERVER_CONFIG_FILE_PATH", "/home/steam/.local/share/Euro Truck Simulator 2/server_config.sii")
+        with open(server_config, "w") as f:
             if f.writable():
                 f.write(config)
                 f.flush()
                 print("[INFO]: Config file written.")
             else:
-                print(f"[ERROR]: Could not write config file ({config_path}). Check file permissions!")
+                print(f"[ERROR]: Could not write config file ({server_config}). Check file permissions!")
         
         max_players = int(os.getenv("ETS_SERVER_MAX_PLAYERS", 8))
         if max_players > 8:
             print("[INFO]: You requested more than 8 players. Trying a workaround to enable this...")
             if max_players > 128:
                 print("[WARNING]: !!You requested more than 128 players. This probably wont work!! Warranty is out the window!")
-            server_config = config_path.replace("server_config.sii", "config_ds.cfg")
-            with open(server_config, "r") as f:
+            config_ds = server_config.replace("server_config.sii", "config_ds.cfg")
+            with open(config_ds, "r") as f:
                 lines = f.readlines()
                 for id, line in enumerate(lines):
                     if line.find("g_max_convoy_size") != -1:
                         lines[id] = re.sub("\d+", str(max_players), line)
                 
-                with open(server_config, "w+") as fw:
+                with open(config_ds, "w+") as fw:
                     fw.writelines(lines)
             
-            os.chmod(server_config, 0o400)
+            os.chmod(config_ds, 0o400)
 
 
     if is_truthy(os.getenv("ETS_SERVER_UPDATE_ON_START", "true")) or not server_files_exist():
