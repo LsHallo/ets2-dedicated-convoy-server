@@ -140,16 +140,12 @@ if __name__ == "__main__":
                 lines = f.readlines()
                 for id, line in enumerate(lines):
                     if line.find("g_max_convoy_size") != -1:
-                        print("Subbing out line")
                         lines[id] = re.sub("\d+", str(max_players), line)
-                        print(f"line after: {line}")
                 
                 with open(server_config, "w+") as fw:
                     fw.writelines(lines)
             
-            os.system(f"cat '{server_config}'")
             os.chmod(server_config, 0o400)
-            os.system(f"ls -la '/home/steam/.local/share/Euro Truck Simulator 2/'")
 
 
     if is_truthy(os.getenv("ETS_SERVER_UPDATE_ON_START", "true")) or not server_files_exist():
