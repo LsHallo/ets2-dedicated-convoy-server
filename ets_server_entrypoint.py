@@ -2,7 +2,11 @@
 
 import os
 import re
+import subprocess
+import sys
+import logging
 import os.path
+import time
 
 
 def server_files_exist() -> bool:
@@ -41,9 +45,46 @@ def is_truthy(any_str: str) -> bool:
     Returns True if str is "yes", "true", "on" or "1".
     Case insensitive.
     """
-    if any_str.lower() in ["yes", "true", "on", "1"]:
+    if any_str.lower().strip() in ["yes", "true", "on", "1"]:
         return True
     return False
+
+def get_current_max_players(config_ds: str) -> int:
+    if not os.path.isfile(config_ds):
+        return 0
+    with open(config_ds, "r") as f:
+        while line := f.readline():
+            if line.find('g_max_convoy_size'):
+                return int(re.search(r"(\d+)", line).group(1))
+
+def max_player_workaround(config_ds: str, max_players: int):
+    print("[INFO]: You requested more than 8 players. Trying a workaround to enable this...")
+    if max_players > 128:
+        logging.warning("!!You requested more than 128 players. This probably wont work!! Warranty is out the window!")
+    
+    if get_current_max_players(config_ds) == max_players:
+        logging.info("Request player count already in config_ds. No changes necessary.")
+        return
+    
+    if not os.path.isfile(config_ds):
+        logging.warning("config_ds.cfg does not exist. This is probably since this is the first start.")
+        logging.warning("Restart the server to apply max player workaround.")
+    
+    os.chmod(config_ds, 0o600)
+    with open(config_ds, "r") as f:
+        lines = f.readlines()
+        for id, line in enumerate(lines):
+            if line.find("g_max_convoy_size") != -1:
+                lines[id] = re.sub("\d+", str(max_players), line)
+        
+        with open(config_ds, "w+") as fw:
+            if fw.writable():
+                fw.writelines(lines)
+                logging.info("config_ds.cfg modified and written.")
+            else:
+                logging.error("config_ds.cfg not writable.")
+
+    os.chmod(config_ds, 0o400)
 
 
 def generate_config() -> str:
@@ -119,7 +160,17 @@ server_config : _nameless.44c.eab0 {{
 
 
 if __name__ == "__main__":
-    if is_truthy(os.getenv("ETS_SERVER_WRITE_CONFIG", "true")):
+    if os.getenv('DEBUG', None) is not None:
+        level = logging.DEBUG
+        frmt = "%(asctime)s [%(levelname)s]: %(message)s [%(funcName)s]"
+    else:
+        level = logging.INFO
+        frmt = "%(asctime)s [%(levelname)s]: %(message)s"
+    logging.basicConfig(stream=sys.stdout, level=level, format=frmt, datefmt="%H:%M:%S")
+    logging.debug("DEBUG MODE ENABLED!")
+
+    write_config = is_truthy(os.getenv("ETS_SERVER_WRITE_CONFIG", "true"))
+    if write_config:
         config = generate_config()
         server_config = os.getenv("ETS_SERVER_CONFIG_FILE_PATH", "/home/steam/.local/share/Euro Truck Simulator 2/server_config.sii")
         with open(server_config, "w") as f:
@@ -129,24 +180,6 @@ if __name__ == "__main__":
                 print("[INFO]: Config file written.")
             else:
                 print(f"[ERROR]: Could not write config file ({server_config}). Check file permissions!")
-        
-        max_players = int(os.getenv("ETS_SERVER_MAX_PLAYERS", 8))
-        if max_players > 8:
-            print("[INFO]: You requested more than 8 players. Trying a workaround to enable this...")
-            if max_players > 128:
-                print("[WARNING]: !!You requested more than 128 players. This probably wont work!! Warranty is out the window!")
-            config_ds = server_config.replace("server_config.sii", "config_ds.cfg")
-            with open(config_ds, "r") as f:
-                lines = f.readlines()
-                for id, line in enumerate(lines):
-                    if line.find("g_max_convoy_size") != -1:
-                        lines[id] = re.sub("\d+", str(max_players), line)
-                
-                with open(config_ds, "w+") as fw:
-                    fw.writelines(lines)
-            
-            os.chmod(config_ds, 0o400)
-
 
     if is_truthy(os.getenv("ETS_SERVER_UPDATE_ON_START", "true")) or not server_files_exist():
         print("[INFO]: Updating ETS Server...")
@@ -156,3 +189,20 @@ if __name__ == "__main__":
         print("[INFO]: Update done.")
     else:
         print("[INFO]: Skipping server update. To update set 'ETS_SERVER_UPDATE_ON_START=true'.")
+
+    if write_config:
+        max_players = int(os.getenv("ETS_SERVER_MAX_PLAYERS", 8))
+        if max_players > 8:
+            config_ds = server_config.replace("server_config.sii", "config_ds.cfg")
+            if not os.path.isfile(config_ds):
+                logging.warning("config_ds not found. Temporarily starting server to generate.")
+                temp_proc = subprocess.Popen([os.getenv("EXECUTABLE")])
+                max_tries = 10
+                while not os.path.isfile(config_ds) and max_tries > 0:
+                    logging.info(f"Waiting 5s for config_ds to be generated... ({max_tries})")
+                    time.sleep(5)
+                    max_tries -= 1
+                time.sleep(3)
+                logging.info("Killing temporary server. It has done what it was meant to...")
+                temp_proc.kill()
+            max_player_workaround(config_ds, max_players)
