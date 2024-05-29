@@ -13,10 +13,10 @@ ENV APP_ID=${APP_ID}
 
 WORKDIR /app
 
-# Install python, libatomic, libx11-dev
+# Install python, libatomic, libx11-6
 USER root
 ENV DEBIAN_FRONTEND=noninteractive
-RUN apt-get update && apt-get install -y python3 libatomic1 libx11-dev && apt-get clean
+RUN apt-get update && apt-get install -y python3 libatomic1 libx11-6 && apt-get clean
 
 # Create required dirs
 RUN mkdir -p "${SAVEGAME_LOCATION}" \
