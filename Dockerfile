@@ -13,7 +13,6 @@ ENV APP_ID=${APP_ID}
 
 WORKDIR /app
 
-# Install python for init script
 USER root
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update \
