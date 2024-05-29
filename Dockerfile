@@ -13,13 +13,14 @@ ENV APP_ID=${APP_ID}
 
 WORKDIR /app
 
+# Install python for init script
 USER root
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update \
     && apt-get install -y python3 libatomic1 libx11-6 \
     && apt-get clean
 
-# Create required dirs and symlinks
+# Create required dirs
 RUN mkdir -p "${SAVEGAME_LOCATION}" \
     && chown steam:steam -R "${SAVEGAME_LOCATION}" \
     && mkdir -p /default_packages
