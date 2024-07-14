@@ -14,6 +14,9 @@ jobs:
       packages: write
 
     steps:
+      - name: Check out the repo
+        uses: actions/checkout@v4
+
       - name: Write VERSION file
         run: |
           touch VERSION
@@ -51,6 +54,8 @@ jobs:
       - name: ETS2 Convoy Server | Build and Push
         uses: docker/build-push-action@v3
         with:
+          context: .
+          dockerfile: ./Dockerfile
           push: ${{ github.ref_type == 'tag' }}
           platforms: linux/amd64
           tags: ${{ steps.meta.outputs.tags }}
