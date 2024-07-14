@@ -8,6 +8,7 @@ Easy to configure and use!
    - [ATS](#ats)
  - [Environment Variables](#environment-variables)
  - [Custom Mods](#custom-mods)
+ - [Increase Max Player Limit above 8 Players](#increase-max-player-limit-above-8-players)
  - [Troubleshooting](#troubleshooting)
    - [Login Error 15](#login-error-15)
    - [Login Error 106](#login-error-106)
@@ -118,6 +119,25 @@ To enable your installed mods you need to generate custom `server_packages.dat` 
         - Place the files in the mounted directory. E.g.: `/opt/ets2`
     - Restart your server
 
+# Increase Max Player Limit above 8 Players
+
+1. Set the desired player count using `ETS_SERVER_MAX_PLAYERS`
+2. Start the container
+3. Wait for the game to download and the server to start
+4. Restart the container
+5. You should see the server reporting: 
+```
+*** WARNING *** : [cvar] Can not create file '</home/steam/.local/share/Euro Truck Simulator 2 | /home>/config_ds.cfg'.
+*** ERROR *** : [fs] Failed to open file '/home/config_ds.cfg' in the create_truncate mode.
+[...]
+*** WARNING *** : [MP] Warning: Proper player limit exceeded.
+[...]
+[MP] Maximum number of players: 32
+```
+Then the workaround is working.
+
+Due to the hacky nature of the workaround I cannot provide any support.
+Please don't create issues about it unless it prevents the server from starting at all.
 
 
 # Troubleshooting

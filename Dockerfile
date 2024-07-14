@@ -13,10 +13,11 @@ ENV APP_ID=${APP_ID}
 
 WORKDIR /app
 
-# Install python, libatomic, libx11-6
 USER root
 ENV DEBIAN_FRONTEND=noninteractive
-RUN apt-get update && apt-get install -y python3 libatomic1 libx11-6 && apt-get clean
+RUN apt-get update \
+    && apt-get install -y python3 libatomic1 libx11-6 \
+    && apt-get clean
 
 # Create required dirs
 RUN mkdir -p "${SAVEGAME_LOCATION}" \
@@ -25,6 +26,7 @@ RUN mkdir -p "${SAVEGAME_LOCATION}" \
 
 COPY ets_server_entrypoint.py /ets_server_entrypoint.py
 COPY entrypoint.sh /entrypoint
+COPY VERSION /version
 RUN chmod +x /entrypoint
 
 COPY ["${DEFAULT_PACKAGES}/server_packages.dat", "/default_packages/"]
