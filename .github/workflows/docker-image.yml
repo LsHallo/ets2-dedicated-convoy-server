@@ -18,6 +18,8 @@ jobs:
         run: |
           touch VERSION
           echo "${{ github.ref_name || 'devel' }}" > VERSION
+          ls -la .
+          cat VERSION
         shell: bash
 
       - name: Set up Docker Buildx
