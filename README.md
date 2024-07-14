@@ -8,7 +8,7 @@ Easy to configure and use!
    - [ATS](#ats)
  - [Environment Variables](#environment-variables)
  - [Custom Mods](#custom-mods)
- - [No Support: Increase Max Player Limit](#increase-max-player-limit-above-8-players)
+ - [Increase Max Player Limit above 8 Players](#increase-max-player-limit-above-8-players)
  - [Troubleshooting](#troubleshooting)
    - [Login Error 15](#login-error-15)
    - [Login Error 106](#login-error-106)
