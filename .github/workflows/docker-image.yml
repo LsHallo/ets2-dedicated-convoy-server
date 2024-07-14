@@ -21,8 +21,6 @@ jobs:
         run: |
           touch VERSION
           echo "${{ github.ref_name || 'devel' }}" > VERSION
-          ls -la .
-          cat VERSION
         shell: bash
 
       - name: Set up Docker Buildx
@@ -55,7 +53,7 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           context: .
-          dockerfile: ./Dockerfile
+          file: ./Dockerfile
           push: ${{ github.ref_type == 'tag' }}
           platforms: linux/amd64
           tags: ${{ steps.meta.outputs.tags }}
@@ -68,6 +66,9 @@ jobs:
       packages: write
 
     steps:
+      - name: Check out the repo
+        uses: actions/checkout@v4
+
       - name: Write VERSION file
         run: |
           touch VERSION
@@ -103,6 +104,8 @@ jobs:
       - name: ATS Convoy Server | Build and Push
         uses: docker/build-push-action@v3
         with:
+          context: .
+          file: ./Dockerfile
           push: ${{ github.ref_type == 'tag' }}
           build-args: |
             APP_ID=2239530
