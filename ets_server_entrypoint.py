@@ -2,11 +2,9 @@
 
 import os
 import re
-import subprocess
 import sys
 import logging
 import os.path
-import time
 
 
 def server_files_exist() -> bool:
@@ -40,6 +38,11 @@ def generate_moderator_list(mod_list: list) -> str:
     return out_str
 
 
+def get_version():
+    with open("/version", "r") as f:
+        return f.readline().strip()
+
+
 def is_truthy(any_str: str) -> bool:
     """
     Returns True if str is "yes", "true", "on" or "1".
@@ -48,6 +51,7 @@ def is_truthy(any_str: str) -> bool:
     if any_str.lower().strip() in ["yes", "true", "on", "1"]:
         return True
     return False
+
 
 def get_current_max_players(config_ds: str) -> int:
     if not os.path.isfile(config_ds):
@@ -59,8 +63,8 @@ def get_current_max_players(config_ds: str) -> int:
 
 def max_player_workaround(config_ds: str, max_players: int):
     print("[INFO]: You requested more than 8 players. Trying a workaround to enable this...")
-    if max_players > 128:
-        logging.warning("!!You requested more than 128 players. This probably wont work!! Warranty is out the window!")
+    if max_players > 64:
+        logging.warning("!!You requested more than 64 players. This probably wont work!! Warranty is out the window!")
     
     if get_current_max_players(config_ds) == max_players:
         logging.info("Request player count already in config_ds. No changes necessary.")
@@ -68,7 +72,7 @@ def max_player_workaround(config_ds: str, max_players: int):
     
     if not os.path.isfile(config_ds):
         logging.warning("config_ds.cfg does not exist. This is probably since this is the first start.")
-        logging.warning("Restart the server to apply max player workaround.")
+        logging.warning("Please restart the container `docker compose restart` to apply player limit workaround.")
     
     os.chmod(config_ds, 0o600)
     with open(config_ds, "r") as f:
@@ -169,6 +173,8 @@ if __name__ == "__main__":
     logging.basicConfig(stream=sys.stdout, level=level, format=frmt, datefmt="%H:%M:%S")
     logging.debug("DEBUG MODE ENABLED!")
 
+    logging.info(f"Docker Container Version: {get_version()}")
+
     write_config = is_truthy(os.getenv("ETS_SERVER_WRITE_CONFIG", "true"))
     if write_config:
         config = generate_config()
@@ -194,15 +200,4 @@ if __name__ == "__main__":
         max_players = int(os.getenv("ETS_SERVER_MAX_PLAYERS", 8))
         if max_players > 8:
             config_ds = server_config.replace("server_config.sii", "config_ds.cfg")
-            if not os.path.isfile(config_ds):
-                logging.warning("config_ds not found. Temporarily starting server to generate.")
-                temp_proc = subprocess.Popen([os.getenv("EXECUTABLE")])
-                max_tries = 10
-                while not os.path.isfile(config_ds) and max_tries > 0:
-                    logging.info(f"Waiting 5s for config_ds to be generated... ({max_tries})")
-                    time.sleep(5)
-                    max_tries -= 1
-                time.sleep(3)
-                logging.info("Killing temporary server. It has done what it was meant to...")
-                temp_proc.kill()
             max_player_workaround(config_ds, max_players)
