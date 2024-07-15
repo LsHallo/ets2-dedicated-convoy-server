@@ -9,6 +9,7 @@ Easy to configure and use!
  - [Environment Variables](#environment-variables)
  - [Custom Mods](#custom-mods)
  - [Increase Max Player Limit above 8 Players](#increase-max-player-limit-above-8-players)
+   - [Joining The Modified Server](#joining-the-modified-server)
  - [Troubleshooting](#troubleshooting)
    - [Login Error 15](#login-error-15)
    - [Login Error 106](#login-error-106)
@@ -135,6 +136,16 @@ To enable your installed mods you need to generate custom `server_packages.dat` 
 [MP] Maximum number of players: 32
 ```
 Then the workaround is working.
+
+### Joining the Modified Server
+To join your modified server you'll need to set the same property also in your game.
+First you need to enable developer mode: https://forum.scssoft.com/viewtopic.php?t=61852
+
+Then in game press this key on your keyboard to open the console:
+![Keyboard](https://farm3.staticflickr.com/2840/10477930906_1ecf33ff78_o.png)
+
+Enter `g_max_convoy_size 128` and press enter.
+This setting is saved across reboots. However it might not survive updates and you might have to issue the command again.
 
 Due to the hacky nature of the workaround I cannot provide any support.
 Please don't create issues about it unless it prevents the server from starting at all.
