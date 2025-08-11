@@ -65,7 +65,7 @@ Stop the server with `docker compose stop` and remove it with `docker compose do
 | ETS_SERVER_DESCRIPTION | Join me! | The description of the server. Shown ingame. | "" |
 | ETS_SERVER_WELCOME_MESSAGE | Welcome to my server! | The welcome message. Shown ingame. | "" |
 | ETS_SERVER_PASSWORD | password | The password required to join your server | "" |
-| ETS_SERVER_MAX_PLAYERS | 8 | Max number of players. Probably limited to 8 max. | 8 |
+| ETS_SERVER_MAX_PLAYERS | 8 | Max number of players. Can be hacked to support up to 128 | 8 |
 | ETS_SERVER_MAX_VEHICLES_TOTAL | 100 | Maximum number of vehicles on server??? | 100 |
 | ETS_SERVER_MAX_AI_VEHICLES_PLAYER | 50 | Maximum number of AI vehicles around a player??? | 50 |
 | ETS_SERVER_MAX_AI_VEHICLES_PLAYER_SPAWN | 50 | ??? | 50 |
@@ -79,9 +79,9 @@ Stop the server with `docker compose stop` and remove it with `docker compose do
 | ETS_SERVER_HIDE_IN_COMPANY | false | Enable/disable collisions of players in menu | false |
 | ETS_SERVER_HIDE_COLLIDING | true | Enable/disable hiding of players in no collisions zone | true |
 | ETS_SERVER_FORCE_SPEEDLIMITER | false | Enable/disable speed limit | false |
-| ETS_SERVER_MODS_OPTIONING | false | Enable optional mods | false |
+| ETS_SERVER_MODS_OPTIONING | false | Mark optional mods as required | false |
 | ETS_SERVER_TIMEZONES | false | Enable time zones | false |
-| ETS_SERVER_SERVICE_NO_COLLISION | false | Enable/disable collision in service areas (true = collisions enable, false = collisions disabled) | false |
+| ETS_SERVER_SERVICE_NO_COLLISION | false | Enable/disable collision in service areas (true = collisions enabled, false = collisions disabled) | false |
 | ETS_SERVER_NAME_TAGS | true | Enable/disable display of name tags above trucks | true |
 | ETS_SERVER_FRIENDS_ONLY | false | Limit server to steam friends??? | false |
 | ETS_SERVER_SHOW_SERVER | true | Show server in public server list? | true |
