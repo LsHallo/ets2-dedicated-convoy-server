@@ -61,3 +61,22 @@ services:
       - "ETS_SERVER_PORT=27015"
       - "ETS_SERVER_QUERY_PORT=27016"
       # more variables...
+
+  discord-monitor:
+    build:
+      context: .
+      dockerfile: Dockerfile.monitor
+    container_name: ets2-discord-monitor
+    restart: unless-stopped
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    environment:
+      - DISCORD_WEBHOOK_URL=${DISCORD_WEBHOOK_URL}
+      - DISCORD_CONNECT_ICON=${DISCORD_CONNECT_ICON}
+      - DISCORD_DISCONNECT_ICON=${DISCORD_DISCONNECT_ICON}
+      - DISCORD_CONNECT_TEXT=${DISCORD_CONNECT_TEXT}
+      - DISCORD_DISCONNECT_TEXT=${DISCORD_DISCONNECT_TEXT}
+      - MONITOR_CONTAINER_NAME=${MONITOR_CONTAINER_NAME}
+    # Monitor watches logs from the container specified in MONITOR_CONTAINER_NAME
+    # To monitor a different server, change MONITOR_CONTAINER_NAME in the .env file
+
