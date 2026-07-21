@@ -1,0 +1,8 @@
+.git/
+.gitignore
+.github/
+__pycache__/
+ETS_SERVER_README.md
+README.md
+docker-compose.yml
+docker-compose.dev.yml

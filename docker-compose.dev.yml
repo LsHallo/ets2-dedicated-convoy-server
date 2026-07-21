@@ -3,8 +3,8 @@
 
 services:
   ets2-server:
-    image: lshallo/ets2-convoy-server
-    # image: ghcr.io/lshallo/ets2-convoy-server # GitHub container registry
+    build:
+      context: .
     container_name: ets2-server
     restart: unless-stopped
     tty: true
@@ -35,8 +35,13 @@ services:
       # more variables...
 
   ats-server:
-    image: lshallo/ats-convoy-server
-    # image: ghcr.io/lshallo/ats-convoy-server # GitHub container registry
+    build:
+      context: .
+      args:
+        APP_ID: 2239530
+        SAVEGAME_LOCATION: /home/steam/.local/share/American Truck Simulator/
+        EXECUTABLE: /app/bin/linux_x64/amtrucks_server
+        DEFAULT_PACKAGES: default_packages/ats
     container_name: ats-server
     restart: unless-stopped
     tty: true

@@ -5,6 +5,18 @@ import re
 import sys
 import logging
 import os.path
+from typing import Union
+
+
+def getenv(key: str, default: str = None) -> Union[str, None]:
+    """
+    ENV helper to support variables with ATS_ and ETS_ prefix.
+    """
+    if key.startswith("ETS_"):
+        key_ats = key.replace("ETS_", "ATS_")
+        return os.getenv(key, os.getenv(key_ats, default))
+    else:
+        return os.getenv(key, default)
 
 
 def server_files_exist() -> bool:
@@ -12,7 +24,7 @@ def server_files_exist() -> bool:
     Checks if the main server executable is present.
     Uses env variable `EXECUTABLE` as path to check.
     """
-    executable_path = os.getenv("EXECUTABLE")
+    executable_path = getenv("EXECUTABLE")
     return os.path.isfile(executable_path)
 
 
@@ -61,6 +73,7 @@ def get_current_max_players(config_ds: str) -> int:
             if line.find('g_max_convoy_size'):
                 return int(re.search(r"(\d+)", line).group(1))
 
+
 def max_player_workaround(config_ds: str, max_players: int):
     print("[INFO]: You requested more than 8 players. Trying a workaround to enable this...")
     if max_players > 64:
@@ -79,7 +92,7 @@ def max_player_workaround(config_ds: str, max_players: int):
         lines = f.readlines()
         for id, line in enumerate(lines):
             if line.find("g_max_convoy_size") != -1:
-                lines[id] = re.sub("\d+", str(max_players), line)
+                lines[id] = re.sub(r"\d+", str(max_players), line)
         
         with open(config_ds, "w+") as fw:
             if fw.writable():
@@ -98,32 +111,32 @@ def generate_config() -> str:
     """
     print("[INFO]: Writing config file...")
 
-    server_name = os.getenv("ETS_SERVER_NAME", "Euro Truck Simulator 2 Docker Server")
-    description = os.getenv("ETS_SERVER_DESCRIPTION", "")
-    welcome_message = os.getenv("ETS_SERVER_WELCOME_MESSAGE", "")
-    password = os.getenv("ETS_SERVER_PASSWORD", "")
-    max_players = os.getenv("ETS_SERVER_MAX_PLAYERS", "8")
-    max_vehicles_total = os.getenv("ETS_SERVER_MAX_VEHICLES_TOTAL", "100")
-    max_ai_vehicles_player = os.getenv("ETS_SERVER_MAX_AI_VEHICLES_PLAYER", "50")
-    max_ai_vehicles_player_spawn = os.getenv("ETS_SERVER_MAX_AI_VEHICLES_PLAYER_SPAWN", "50")
-    connection_virtual_port = os.getenv("ETS_SERVER_CONNECTION_VIRTUAL_PORT", "100")
-    query_virtual_port = os.getenv("ETS_SERVER_QUERY_VIRTUAL_PORT", "101")
-    server_port = os.getenv("ETS_SERVER_PORT", "27015")
-    query_port = os.getenv("ETS_SERVER_QUERY_PORT", "27016")
-    server_logon_token = os.getenv("ETS_SERVER_LOGON_TOKEN", "")
-    player_damage = is_truthy(os.getenv("ETS_SERVER_PLAYER_DAMAGE", "true"))
-    traffic = is_truthy(os.getenv("ETS_SERVER_TRAFFIC", "true"))
-    hide_in_company = is_truthy(os.getenv("ETS_SERVER_HIDE_IN_COMPANY", "false"))
-    hide_colliding = is_truthy(os.getenv("ETS_SERVER_HIDE_COLLIDING", "true"))
-    force_speedlimiter = is_truthy(os.getenv("ETS_SERVER_FORCE_SPEEDLIMITER", "false"))
-    mods_optioning = is_truthy(os.getenv("ETS_SERVER_MODS_OPTIONING", "false"))
-    timezones = is_truthy(os.getenv("ETS_SERVER_TIMEZONES", "false"))
-    service_no_collision = is_truthy(os.getenv("ETS_SERVER_SERVICE_NO_COLLISION", "false"))
-    in_menu_ghosting = is_truthy(os.getenv("ETS_SERVER_IN_MENU_GHOSTING", "false"))
-    name_tags = is_truthy(os.getenv("ETS_SERVER_NAME_TAGS", "true"))
-    friends_only = is_truthy(os.getenv("ETS_SERVER_FRIENDS_ONLY", "false"))
-    show_server = is_truthy(os.getenv("ETS_SERVER_SHOW_SERVER", "true"))
-    moderator_list = os.getenv("ETS_SERVER_MODERATORS", "").split(",")
+    server_name = getenv("ETS_SERVER_NAME", "Euro Truck Simulator 2 Docker Server")
+    description = getenv("ETS_SERVER_DESCRIPTION", "")
+    welcome_message = getenv("ETS_SERVER_WELCOME_MESSAGE", "")
+    password = getenv("ETS_SERVER_PASSWORD", "")
+    max_players = getenv("ETS_SERVER_MAX_PLAYERS", "8")
+    max_vehicles_total = getenv("ETS_SERVER_MAX_VEHICLES_TOTAL", "100")
+    max_ai_vehicles_player = getenv("ETS_SERVER_MAX_AI_VEHICLES_PLAYER", "50")
+    max_ai_vehicles_player_spawn = getenv("ETS_SERVER_MAX_AI_VEHICLES_PLAYER_SPAWN", "50")
+    connection_virtual_port = getenv("ETS_SERVER_CONNECTION_VIRTUAL_PORT", "100")
+    query_virtual_port = getenv("ETS_SERVER_QUERY_VIRTUAL_PORT", "101")
+    server_port = getenv("ETS_SERVER_PORT", "27015")
+    query_port = getenv("ETS_SERVER_QUERY_PORT", "27016")
+    server_logon_token = getenv("ETS_SERVER_LOGON_TOKEN", "")
+    player_damage = is_truthy(getenv("ETS_SERVER_PLAYER_DAMAGE", "true"))
+    traffic = is_truthy(getenv("ETS_SERVER_TRAFFIC", "true"))
+    hide_in_company = is_truthy(getenv("ETS_SERVER_HIDE_IN_COMPANY", "false"))
+    hide_colliding = is_truthy(getenv("ETS_SERVER_HIDE_COLLIDING", "true"))
+    force_speedlimiter = is_truthy(getenv("ETS_SERVER_FORCE_SPEEDLIMITER", "false"))
+    mods_optioning = is_truthy(getenv("ETS_SERVER_MODS_OPTIONING", "false"))
+    timezones = is_truthy(getenv("ETS_SERVER_TIMEZONES", "false"))
+    service_no_collision = is_truthy(getenv("ETS_SERVER_SERVICE_NO_COLLISION", "false"))
+    in_menu_ghosting = is_truthy(getenv("ETS_SERVER_IN_MENU_GHOSTING", "false"))
+    name_tags = is_truthy(getenv("ETS_SERVER_NAME_TAGS", "true"))
+    friends_only = is_truthy(getenv("ETS_SERVER_FRIENDS_ONLY", "false"))
+    show_server = is_truthy(getenv("ETS_SERVER_SHOW_SERVER", "true"))
+    moderator_list = getenv("ETS_SERVER_MODERATORS", "").split(",")
     moderator_list_generated = generate_moderator_list(moderator_list)
 
 # This is ugly AF but if you indent it differently it breaks the config...
@@ -164,7 +177,7 @@ server_config : _nameless.44c.eab0 {{
 
 
 if __name__ == "__main__":
-    if os.getenv('DEBUG', None) is not None:
+    if getenv('DEBUG', None) is not None:
         level = logging.DEBUG
         frmt = "%(asctime)s [%(levelname)s]: %(message)s [%(funcName)s]"
     else:
@@ -175,10 +188,10 @@ if __name__ == "__main__":
 
     logging.info(f"Docker Container Version: {get_version()}")
 
-    write_config = is_truthy(os.getenv("ETS_SERVER_WRITE_CONFIG", "true"))
+    write_config = is_truthy(getenv("ETS_SERVER_WRITE_CONFIG", "true"))
     if write_config:
         config = generate_config()
-        server_config = os.getenv("ETS_SERVER_CONFIG_FILE_PATH", "/home/steam/.local/share/Euro Truck Simulator 2/server_config.sii")
+        server_config = getenv("ETS_SERVER_CONFIG_FILE_PATH", "/home/steam/.local/share/Euro Truck Simulator 2/server_config.sii")
         with open(server_config, "w") as f:
             if f.writable():
                 f.write(config)
@@ -187,17 +200,17 @@ if __name__ == "__main__":
             else:
                 print(f"[ERROR]: Could not write config file ({server_config}). Check file permissions!")
 
-    if is_truthy(os.getenv("ETS_SERVER_UPDATE_ON_START", "true")) or not server_files_exist():
-        print("[INFO]: Updating ETS Server...")
-        APP_ID = os.getenv("APP_ID")
-        beta_argument = " -beta " + os.getenv("ETS_SERVER_BRANCH") if os.getenv("ETS_SERVER_BRANCH") else ""
+    if is_truthy(getenv("ETS_SERVER_UPDATE_ON_START", "true")) or not server_files_exist():
+        APP_ID = getenv("APP_ID")
+        print(f"[INFO]: Updating {"ETS" if APP_ID == 1948160 else "ATS"} Server...")
+        beta_argument = " -beta " + getenv("ETS_SERVER_BRANCH") if getenv("ETS_SERVER_BRANCH") else ""
         os.system(f"/home/steam/steamcmd/steamcmd.sh +force_install_dir /app +login anonymous +app_update {APP_ID}{beta_argument} +quit")
         print("[INFO]: Update done.")
     else:
         print("[INFO]: Skipping server update. To update set 'ETS_SERVER_UPDATE_ON_START=true'.")
 
     if write_config:
-        max_players = int(os.getenv("ETS_SERVER_MAX_PLAYERS", 8))
+        max_players = int(getenv("ETS_SERVER_MAX_PLAYERS", 8))
         if max_players > 8:
             config_ds = server_config.replace("server_config.sii", "config_ds.cfg")
             max_player_workaround(config_ds, max_players)
