@@ -35,7 +35,7 @@ services:
       # more variables...
 
   ats-server:
-    # image: lshallo/ats-convoy-server
+    image: lshallo/ats-convoy-server
     # image: ghcr.io/lshallo/ats-convoy-server # GitHub container registry
     container_name: ats-server
     restart: unless-stopped
