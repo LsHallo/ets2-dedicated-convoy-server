@@ -2,10 +2,21 @@
 
 import os
 import re
+import subprocess
 import sys
 import logging
 import os.path
 from typing import Union
+
+
+def print_debug_env():
+    logging.debug("--------- CONFIG ---------")
+    logging.debug(f"Version: {get_version()}")
+    logging.debug(f"App ID: {getenv('APP_ID')}")
+    logging.debug(f"Custom Branch: {getenv('ETS_SERVER_BRANCH')}")
+    logging.debug(f"Update: {is_truthy(getenv('ETS_SERVER_UPDATE_ON_START'))}")
+    logging.debug(f"Players: {getenv('ETS_SERVER_MAX_PLAYERS')}")
+    logging.debug(f"Config Path: {getenv('ETS_SERVER_CONFIG_FILE_PATH')}")
 
 
 def getenv(key: str, default: str = None) -> Union[str, None]:
@@ -75,7 +86,7 @@ def get_current_max_players(config_ds: str) -> int:
 
 
 def max_player_workaround(config_ds: str, max_players: int):
-    print("[INFO]: You requested more than 8 players. Trying a workaround to enable this...")
+    logging.info("You requested more than 8 players. Trying a workaround to enable this...")
     if max_players > 64:
         logging.warning("!!You requested more than 64 players. This probably wont work!! Warranty is out the window!")
     
@@ -177,14 +188,15 @@ server_config : _nameless.44c.eab0 {{
 
 
 if __name__ == "__main__":
-    if getenv('DEBUG', None) is not None:
+    level = logging.INFO
+    frmt = "%(asctime)s [%(levelname)s]: %(message)s"
+    if getenv("DEBUG") is not None:
+        print("Enabling debug")
         level = logging.DEBUG
         frmt = "%(asctime)s [%(levelname)s]: %(message)s [%(funcName)s]"
-    else:
-        level = logging.INFO
-        frmt = "%(asctime)s [%(levelname)s]: %(message)s"
-    logging.basicConfig(stream=sys.stdout, level=level, format=frmt, datefmt="%H:%M:%S")
+    logging.basicConfig(stream=sys.stdout, level=level, format=frmt, datefmt="%H:%M:%S", force=True)
     logging.debug("DEBUG MODE ENABLED!")
+    print_debug_env()
 
     logging.info(f"Docker Container Version: {get_version()}")
 
@@ -196,18 +208,41 @@ if __name__ == "__main__":
             if f.writable():
                 f.write(config)
                 f.flush()
-                print("[INFO]: Config file written.")
+                logging.info("Config file written.")
             else:
-                print(f"[ERROR]: Could not write config file ({server_config}). Check file permissions!")
+                logging.error(f"Could not write config file ({server_config}). Check file permissions!")
 
     if is_truthy(getenv("ETS_SERVER_UPDATE_ON_START", "true")) or not server_files_exist():
         APP_ID = getenv("APP_ID")
-        print(f"[INFO]: Updating {"ETS" if APP_ID == 1948160 else "ATS"} Server...")
-        beta_argument = " -beta " + getenv("ETS_SERVER_BRANCH") if getenv("ETS_SERVER_BRANCH") else ""
-        os.system(f"/home/steam/steamcmd/steamcmd.sh +force_install_dir /app +login anonymous +app_update {APP_ID}{beta_argument} +quit")
-        print("[INFO]: Update done.")
+        logging.info(f"Updating {"ETS" if APP_ID == 1948160 else "ATS"} Server...")
+        server_branch = getenv("ETS_SERVER_BRANCH", "public")
+        logging.info(f"Branch selected: {server_branch}")
+
+        cmd = [
+            "/home/steam/steamcmd/steamcmd.sh",
+            "+force_install_dir",
+            "/app",
+            "+login",
+            "anonymous",
+            "+app_update",
+            str(APP_ID),
+            "-beta",
+            str(server_branch),
+            "validate",
+            "+quit"
+        ]
+        logging.debug(f"SteamCMD command: {' '.join(cmd)}")
+
+        result = subprocess.run(cmd)
+
+        if result != 0:
+            logging.error("Server Update failed!")
+            logging.error(f"SteamCMD exited with exit code {result.returncode}")
+            exit()
+
+        logging.info("Update done.")
     else:
-        print("[INFO]: Skipping server update. To update set 'ETS_SERVER_UPDATE_ON_START=true'.")
+        logging.warning("Skipping server update. To update set 'ETS_SERVER_UPDATE_ON_START=true'.")
 
     if write_config:
         max_players = int(getenv("ETS_SERVER_MAX_PLAYERS", 8))
