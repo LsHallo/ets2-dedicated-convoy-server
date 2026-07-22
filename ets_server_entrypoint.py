@@ -238,7 +238,7 @@ if __name__ == "__main__":
         if result != 0:
             logging.error("Server Update failed!")
             logging.error(f"SteamCMD exited with exit code {result.returncode}")
-            exit()
+            exit(result.returncode)
 
         logging.info("Update done.")
     else:
