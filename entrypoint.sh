@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -e
+
 # Copy default server_packages if they do not exist
 cp -n /default_packages/server_packages.sii "${SAVEGAME_LOCATION}"
 cp -n /default_packages/server_packages.dat "${SAVEGAME_LOCATION}"
