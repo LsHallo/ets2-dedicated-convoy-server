@@ -24,7 +24,7 @@ def getenv(key: str, default: str = None) -> Union[str, None]:
     ENV helper to support variables with ATS_ and ETS_ prefix.
     """
     if key.startswith("ETS_"):
-        key_ats = key.replace("ETS_", "ATS_")
+        key_ats = key.replace("ETS_", "ATS_", 1)
         return os.getenv(key, os.getenv(key_ats, default))
     else:
         return os.getenv(key, default)
