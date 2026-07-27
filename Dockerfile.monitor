@@ -1,0 +1,21 @@
+FROM python:3.11-slim
+
+# Install required system packages
+RUN apt-get update && apt-get install -y \
+    docker.io \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install required Python libraries
+RUN pip install --no-cache-dir requests
+
+# Copy monitor script
+COPY discord_notifier/log_monitor.py /app/log_monitor.py
+
+# Set working directory
+WORKDIR /app
+
+# Make script executable
+RUN chmod +x log_monitor.py
+
+# Start monitor with unbuffered output
+CMD ["python3", "-u", "log_monitor.py"]
