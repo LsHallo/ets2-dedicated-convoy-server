@@ -18,8 +18,19 @@ jobs:
         with:
           python-version: "3.13"
 
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install unittest-xml-reporting
+
       - name: Run tests
-        run: python -m unittest discover -s tests
+        run: python -m xmlrunner discover -s tests -o test-results
+
+      - name: Publish Test Report
+        if: success() || failure()
+        uses: mikepenz/action-junit-report@v6
+        with:
+          report_paths: test-results/*.xml
 
   build-ets2:
     needs: test
