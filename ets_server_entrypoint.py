@@ -209,10 +209,6 @@ server_config : _nameless.44c.eab0 {{
 
 
 if __name__ == "__main__":
-    print(is_truthy("false"))
-    print(is_truthy("true"))
-    print(is_truthy(None))
-
     level = logging.INFO
     frmt = "%(asctime)s [%(levelname)s]: %(message)s"
     if getenv("DEBUG") is not None:
