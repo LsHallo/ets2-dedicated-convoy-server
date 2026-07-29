@@ -7,7 +7,33 @@ on:
     branches: [ "master" ]
 
 jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout the repo
+        uses: actions/checkout@v7
+
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.13"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install unittest-xml-reporting
+
+      - name: Run tests
+        run: python -m xmlrunner discover -s tests -o test-results
+
+      - name: Publish Test Report
+        if: success() || failure()
+        uses: mikepenz/action-junit-report@v6
+        with:
+          report_paths: test-results/*.xml
+
   build-ets2:
+    needs: test
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -15,7 +41,7 @@ jobs:
 
     steps:
       - name: Check out the repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Write VERSION file
         run: |
@@ -24,11 +50,11 @@ jobs:
         shell: bash
 
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
+        uses: docker/setup-buildx-action@v4
       
       - name: Docker meta
         id: meta
-        uses: docker/metadata-action@v4
+        uses: docker/metadata-action@v6
         with:
           images: |
             lshallo/ets2-convoy-server
@@ -50,7 +76,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: ETS2 Convoy Server | Build and Push
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v7
         with:
           context: .
           file: ./Dockerfile
@@ -60,6 +86,7 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
 
   build-ats:
+    needs: test
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -67,7 +94,7 @@ jobs:
 
     steps:
       - name: Check out the repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Write VERSION file
         run: |
@@ -76,11 +103,11 @@ jobs:
         shell: bash
 
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
+        uses: docker/setup-buildx-action@v4
       
       - name: Docker meta
         id: meta
-        uses: docker/metadata-action@v4
+        uses: docker/metadata-action@v6
         with:
           images: |
             lshallo/ats-convoy-server
@@ -102,7 +129,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: ATS Convoy Server | Build and Push
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v7
         with:
           context: .
           file: ./Dockerfile
