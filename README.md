@@ -14,6 +14,8 @@ Easy to configure and use!
    - [Login Error 15](#login-error-15)
    - [Login Error 106](#login-error-106)
    - [Can't write config file `server_config.sii`](#cant-write-config-file-server_configsii)
+ - [Notes for development](#notes-for-development)
+   - [Run tests after changes](#run-tests-after-changes)
 
 # Running
 ## Minimal example:
@@ -174,3 +176,11 @@ See [ETS_SERVER_README.md](ETS_SERVER_README.md#7-server-logon-token) to genrate
 ## Can't write config file `server_config.sii`
 Make sure the mounted folder owner is user id 1000.
 `chown -R 1000:1000 /opt/ets2` (or whereever you have mounted it)
+
+
+## Notes for development
+
+### Run tests after changes
+```shell
+python -m unittest discover -s tests
+```

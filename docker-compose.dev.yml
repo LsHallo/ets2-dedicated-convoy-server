@@ -53,16 +53,18 @@ services:
     #  - "27016:27016"
     #  - "27015:27015/udp"
     #  - "27016:27016/udp"
-    # volumes:
-    #  - "/opt/ats-server/game-data:/app" # server files
+    #volumes:
+    # - "./ats-server/game-data:/app" # server files
     #  - "/opt/ats-server/save-data:/home/steam/.local/share/American Truck Simulator" # Only needed when using custom server_packages.sii and server_packages.dat
     environment:
-      - "ATS_SERVER_UPDATE_ON_START=true"
-      - "ATS_SERVER_NAME=My Server"
+      #- "ATS_SERVER_UPDATE_ON_START=true"
+      - "ATS_SERVER_NAME=ATS Server"
       - "ATS_SERVER_DESCRIPTION=My server description"
-      - "ATS_SERVER_WELCOME_MESSAGE=Welcome to my server!"
+      - "ATS_SERVER_WELCOME_MESSAGE=ATS"
       - "ATS_SERVER_PASSWORD=abc123"
-      - "ATS_SERVER_MAX_PLAYERS=8"
+      - "ATS_SERVER_MAX_PLAYERS=6"
       - "ATS_SERVER_PORT=27015"
       - "ATS_SERVER_QUERY_PORT=27016"
+      #- "ATS_SERVER_BRANCH=temporary_1_59"
+      - "DEBUG=true"
       # more variables...

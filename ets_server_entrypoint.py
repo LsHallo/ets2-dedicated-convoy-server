@@ -6,7 +6,7 @@ import subprocess
 import sys
 import logging
 import os.path
-from typing import Union
+from typing import Any, TypeVar, Union, overload
 
 
 def print_debug_env():
@@ -19,15 +19,25 @@ def print_debug_env():
     logging.debug(f"Config Path: {getenv('ETS_SERVER_CONFIG_FILE_PATH')}")
 
 
-def getenv(key: str, default: str = None) -> Union[str, None]:
+T = TypeVar("T")
+
+@overload
+def getenv(key: str) -> str | None: ...
+
+
+@overload
+def getenv(key: str, default: T) -> str | T: ...
+
+
+def getenv(key: str, default: T | None = None) -> T:
     """
-    ENV helper to support variables with ATS_ and ETS_ prefix.
+    ENV helper to support variables with ATS_ and ETS_ prefixes.
     """
     if key.startswith("ETS_"):
-        key_ats = key.replace("ETS_", "ATS_", 1)
+        key_ats = "ATS_" + key[4:]
         return os.getenv(key, os.getenv(key_ats, default))
-    else:
-        return os.getenv(key, default)
+
+    return os.getenv(key, default)
 
 
 def server_files_exist() -> bool:
@@ -66,13 +76,24 @@ def get_version():
         return f.readline().strip()
 
 
-def is_truthy(any_str: str) -> bool:
+def is_truthy(value: str | bool | None) -> bool:
     """
     Returns True if str is "yes", "true", "on" or "1".
     Case insensitive.
     """
-    if any_str.lower().strip() in ["yes", "true", "on", "1"]:
+    if value is None:
+        return False
+
+    if not isinstance(value, str):
+        try:
+            value = str(value)
+        except Exception as e:
+            logging.warning("Could not convert value to str", exc_info=True)
+            return False
+
+    if value.lower().strip() in {"yes", "true", "on", "1"}:
         return True
+
     return False
 
 
@@ -188,6 +209,10 @@ server_config : _nameless.44c.eab0 {{
 
 
 if __name__ == "__main__":
+    print(is_truthy("false"))
+    print(is_truthy("true"))
+    print(is_truthy(None))
+
     level = logging.INFO
     frmt = "%(asctime)s [%(levelname)s]: %(message)s"
     if getenv("DEBUG") is not None:
@@ -214,7 +239,7 @@ if __name__ == "__main__":
 
     if is_truthy(getenv("ETS_SERVER_UPDATE_ON_START", "true")) or not server_files_exist():
         APP_ID = getenv("APP_ID")
-        logging.info(f"Updating {"ETS" if APP_ID == 1948160 else "ATS"} Server...")
+        logging.info(f"Updating {'ETS' if APP_ID == 1948160 else 'ATS'} Server...")
         server_branch = getenv("ETS_SERVER_BRANCH", "public")
         logging.info(f"Branch selected: {server_branch}")
 
