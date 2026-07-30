@@ -235,7 +235,7 @@ if __name__ == "__main__":
 
     if is_truthy(getenv("ETS_SERVER_UPDATE_ON_START", "true")) or not server_files_exist():
         APP_ID = getenv("APP_ID")
-        logging.info(f"Updating {'ETS' if APP_ID == 1948160 else 'ATS'} Server...")
+        logging.info(f"Updating {'ETS' if int(APP_ID) == 1948160 else 'ATS'} Server...")
         server_branch = getenv("ETS_SERVER_BRANCH", "public")
         logging.info(f"Branch selected: {server_branch}")
 
